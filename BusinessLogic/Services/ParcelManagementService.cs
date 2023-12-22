@@ -5,6 +5,7 @@ using Data.Context;
 using Data.Entities;
 using Data.Enums;
 using Data.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services
 {
@@ -49,6 +50,68 @@ namespace BusinessLogic.Services
             await _context.SaveChangesAsync();
         }
 
+        public async Task ChangeParcelStatusAsync(ParcelStatusHistoryModel statusModel)
+        {
+            ParcelStatusHistory newStatus = _mapper.Map<ParcelStatusHistory>(statusModel);
+
+            Parcel? parcel = await _context.Set<Parcel>().FindAsync(newStatus.ParcelId);
+
+            if (parcel is null)
+                throw new ArgumentException("Parcel doesn't exist in context");
+
+            if (parcel.Status == statusModel.Status)
+                throw new ArgumentException("Parcel already has this status");
+
+            parcel.Status = newStatus.Status;
+
+            _context.Set<Parcel>().Update(parcel);
+
+            await _context.Set<ParcelStatusHistory>().AddAsync(newStatus);
+
+            await _context.SaveChangesAsync();
+        }
+
+        public async Task<IEnumerable<ParcelModel>> GetParcelsInOfficeAsync(PostOfficeModel officeModel)
+        {
+            PostOffice office = _mapper.Map<PostOffice>(officeModel);
+
+            PostOffice? officeInContext = await _context.Set<PostOffice>().FirstOrDefaultAsync(
+                               o => o.Zip == office.Zip);
+
+            if (officeInContext is null)
+                throw new ArgumentException("Office doesn't exist in context");
+
+            IEnumerable<Parcel> parcels = _context.Set<Parcel>()
+                .Where(p => p.OfficeToId == officeInContext.Id
+                && p.Status == ParcelStatus.RecievedByRecipient);
+
+            IEnumerable<ParcelModel> parcelModels = _mapper.Map<IEnumerable<ParcelModel>>(parcels);
+                
+            return parcelModels;
+        }
+
+        public async Task<IEnumerable<ParcelModel>> GetClientArrivedParcelsAsync(ClientModel clientModel)
+        {
+            Client client = _mapper.Map<Client>(clientModel);
+
+            Client? clientInContext = await _context.Set<Client>().FirstOrDefaultAsync(
+                c => c.PhoneNumber == client.PhoneNumber
+                     && c.Name == client.Name
+                     && c.Surname == client.Surname);
+
+            if (clientInContext is null)
+                throw new ArgumentException("Client doesn't exist in context");
+
+            IEnumerable<Parcel> parcels = _context.Set<Parcel>()
+                .Where(
+                    p => p.ReceiverId == clientInContext.Id 
+                         && p.Status == ParcelStatus.ReadyForGranting);
+
+            IEnumerable<ParcelModel> parcelModels = _mapper.Map<IEnumerable<ParcelModel>>(parcels);
+
+            return parcelModels;
+        }
+
         private bool IsExistClientValid(Client client, Client clientInContext)
         {
             return client.Name == clientInContext.Name &&
@@ -59,7 +122,7 @@ namespace BusinessLogic.Services
 
         private async Task ProcessSenderAsync(Client senderEntity, Parcel parcelEntity)
         {
-            Client? senderInContext = _context.Set<Client>().FirstOrDefault(c => c.PhoneNumber == senderEntity.PhoneNumber);
+            Client? senderInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == senderEntity.PhoneNumber);
 
             if (senderInContext is null)
             {
@@ -78,7 +141,7 @@ namespace BusinessLogic.Services
 
         private async Task ProcessReceiverAsync(Client receiverEntity, Parcel parcelEntity)
         {
-            Client? receiverInContext = _context.Set<Client>().FirstOrDefault(c => c.PhoneNumber == receiverEntity.PhoneNumber);
+            Client? receiverInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == receiverEntity.PhoneNumber);
 
             if (receiverInContext is null)
             {
