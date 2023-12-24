@@ -16,6 +16,8 @@ namespace BusinessLogic.Validation
             RuleFor(s => s.Surname).NotNull().NotEmpty().Matches(@"^[A-Za-z.,'\s\-]+$");
 
             RuleFor(s => s.PhoneNumber).NotNull().NotEmpty().Matches(@"^\+380\d{9}$");
+
+            RuleFor(s => s.Role).NotNull().IsInEnum();
         }
     }
 }

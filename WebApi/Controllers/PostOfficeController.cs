@@ -1,7 +1,10 @@
 ﻿using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using BusinessLogic.Validation;
+using Data.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.OpenApi.Extensions;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
@@ -22,6 +25,7 @@ namespace WebApi.Controllers
         }
 
         // GET: api/<PostOfficeController>
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<IEnumerable<PostOfficeModel>>> Get()
         {
@@ -30,6 +34,7 @@ namespace WebApi.Controllers
         }
 
         // GET api/<PostOfficeController>/5
+        [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<PostOfficeModel>> Get(Guid id)
         {
@@ -38,6 +43,7 @@ namespace WebApi.Controllers
         }
 
         // POST api/<PostOfficeController>
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] PostOfficeModel value)
         {
@@ -52,6 +58,7 @@ namespace WebApi.Controllers
         }
 
         // PUT api/<PostOfficeController>/5
+        [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
         public async Task<ActionResult> Put(Guid id, [FromBody] PostOfficeModel value)
         {
@@ -60,6 +67,7 @@ namespace WebApi.Controllers
         }
 
         // DELETE api/<PostOfficeController>/5
+        [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
         public async Task<ActionResult> Delete(Guid id)
         {

@@ -13,6 +13,7 @@ namespace WebApi
         {
             self.AddScoped<IPostOfficeService, PostOfficeService>();
             self.AddScoped<IParcelManagementService, ParcelManagementService>();
+            self.AddScoped<IAuthService, AuthService>();
             
             return self;
         }
@@ -25,10 +26,10 @@ namespace WebApi
             self.AddScoped<ParcelItemValidator>();
             self.AddScoped<ParcelStatusHistoryValidator>();
             self.AddScoped<ParcelValidator>();
-            self.AddScoped<PositionValidator>();
             self.AddScoped<PostOfficeValidator>();
             self.AddScoped<ShipmentMarkValidator>();
             self.AddScoped<StaffValidator>();
+            self.AddScoped<AuthModelValidator>();
             
             return self;
         }
@@ -36,7 +37,6 @@ namespace WebApi
         public static IServiceCollection AddComparers(this IServiceCollection self)
         {
             self.AddScoped<IEntityEqualityComparer<PostOffice>, PostOfficeEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<Position>, PositionEqualityComparer>();
             self.AddScoped<IEntityEqualityComparer<Parcel>, ParcelEqualityComparer>();
             self.AddScoped<IEntityEqualityComparer<ParcelStatusHistory>, ParcelStatusHistoryEqualityComparer>();
             self.AddScoped<IEntityEqualityComparer<ParcelItem>, ParcelItemEqualityComparer>();

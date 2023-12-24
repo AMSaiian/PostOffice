@@ -112,25 +112,6 @@ namespace BusinessLogic.Models
             return obj.GetHashCode();
         }
     }
-
-    public class PositionModelEqualityComparer : IModelEqualityComparer<PositionModel>
-    {
-        public bool Equals(PositionModel? x, PositionModel? y)
-        {
-            if (x == null && y == null)
-                return true;
-            if (x == null || y == null)
-                return false;
-
-            return x.Id == y.Id ||
-                   x.Name == y.Name;
-        }
-
-        public int GetHashCode(PositionModel obj)
-        {
-            return obj.GetHashCode();
-        }
-    }
     
     public class PostOfficeModelEqualityComparer : IModelEqualityComparer<PostOfficeModel>
     {

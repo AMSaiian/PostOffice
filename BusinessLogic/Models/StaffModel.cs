@@ -1,4 +1,5 @@
 ﻿using BusinessLogic.Interfaces;
+using Data.Enums;
 
 namespace BusinessLogic.Models
 {
@@ -12,7 +13,7 @@ namespace BusinessLogic.Models
 
         public string? PhoneNumber { get; set; }
 
-        public Guid? PositionId { get; set; }
+        public UserRole? Role { get; set; }
 
         public Guid? PostOfficeId { get; set; }
     }

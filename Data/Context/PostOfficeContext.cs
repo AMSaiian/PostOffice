@@ -15,8 +15,6 @@ namespace Data.Context
 
         public DbSet<ParcelStatusHistory> ParcelsStatusHistory { get; set; }
 
-        public DbSet<Position> Positions { get; set; }
-
         public DbSet<PostOffice> PostOffices { get; set; }
 
         public DbSet<ShipmentMark> ShipmentMarks { get; set; }
@@ -39,8 +37,6 @@ namespace Data.Context
             modelBuilder.ApplyConfiguration(new ClientConfiguration());
 
             modelBuilder.ApplyConfiguration(new StaffConfiguration());
-
-            modelBuilder.ApplyConfiguration(new PositionConfiguration());
 
             modelBuilder.ApplyConfiguration(new PostOfficeConfiguration());
 

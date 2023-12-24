@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Data.Enums;
 using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
@@ -19,20 +20,21 @@ namespace Data.Entities
         [Required(AllowEmptyStrings = false)]
         public string Surname { get; set; }
 
+        [Required]
+        public UserRole Role { get; set; }
+
         [Required(AllowEmptyStrings = false)]
         [StringLength(13)]
         [DataType(DataType.PhoneNumber)]
         public string PhoneNumber { get; set; }
 
-        [ForeignKey(nameof(Position))]
-        public Guid PositionId { get; set; }
+        [Required(AllowEmptyStrings = false)]
+        public string PasswordHash { get; set; }
 
         [ForeignKey(nameof(PostOffice))]
         public Guid? PostOfficeId { get; set; }
 
         public PostOffice? PostOffice { get; set; }
-
-        public Position Position { get; set; }
     }
 
     public class StaffConfiguration : IEntityTypeConfiguration<Staff>

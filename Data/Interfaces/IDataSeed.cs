@@ -6,8 +6,6 @@ public interface IDataSeed
 {
     public IList<ShipmentMark> Marks { get; }
 
-    public IList<Position> Positions { get; }
-
     public IList<ItemCategory> Categories { get; }
 
     public IList<CategoryMark> CategoryMarks { get; }

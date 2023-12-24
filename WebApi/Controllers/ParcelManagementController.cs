@@ -2,6 +2,7 @@
 using BusinessLogic.Validation;
 using FluentValidation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.RequestWraps;
@@ -33,6 +34,7 @@ namespace WebApi.Controllers
         }
         
         // POST api/<ParcelManagementController>
+        [Authorize(Roles = "Operator")]
         [HttpPost]
         public async Task<ActionResult> Post([FromBody] CreateParcelWrap value)
         {

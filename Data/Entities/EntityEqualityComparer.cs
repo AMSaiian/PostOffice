@@ -112,25 +112,6 @@ namespace Data.Entities
             return obj.GetHashCode();
         }
     }
-
-    public class PositionEqualityComparer : IEntityEqualityComparer<Position>
-    {
-        public bool Equals(Position? x, Position? y)
-        {
-            if (x == null && y == null)
-                return true;
-            if (x == null || y == null)
-                return false;
-
-            return x.Id == y.Id ||
-                   x.Name == y.Name;
-        }
-
-        public int GetHashCode(Position obj)
-        {
-            return obj.GetHashCode();
-        }
-    }
     
     public class PostOfficeEqualityComparer : IEntityEqualityComparer<PostOffice>
     {

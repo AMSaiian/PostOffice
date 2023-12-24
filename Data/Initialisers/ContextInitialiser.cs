@@ -27,13 +27,6 @@ namespace Data.Initialisers
 
             try
             {
-                await InitialiseEntity<Position>(_seed.Positions);
-                await _context.SaveChangesAsync();
-            }
-            catch (ArgumentException) {}
-
-            try
-            {
                 await InitialiseEntity<ItemCategory>(_seed.Categories);
                 await _context.SaveChangesAsync();
             }
