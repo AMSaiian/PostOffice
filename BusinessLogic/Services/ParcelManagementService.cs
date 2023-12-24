@@ -22,11 +22,12 @@ namespace BusinessLogic.Services
             _mapper = mapper;
         }
 
-        public async Task CreateParcelAsync(
+        public async Task<Result<object>> CreateParcelAsync(
             ClientModel sender, ClientModel receiver, 
             PostOfficeModel officeFrom, PostOfficeModel officeTo, 
             IEnumerable<ParcelItemModel> items)
         {
+            Result<object> result = new();
             Client senderEntity = _mapper.Map<Client>(sender);
             Client receiverEntity = _mapper.Map<Client>(receiver);
 
@@ -36,8 +37,13 @@ namespace BusinessLogic.Services
             Parcel parcelEntity = new Parcel();
             IEnumerable<ParcelItem> parcelItems = _mapper.Map<IEnumerable<ParcelItem>>(items);
 
-            await ProcessSenderAsync(senderEntity, parcelEntity);
-            await ProcessReceiverAsync(receiverEntity, parcelEntity);
+            await ProcessSenderAsync(senderEntity, parcelEntity, result);
+            if (!result.IsSuccess)
+                return result;
+
+            await ProcessReceiverAsync(receiverEntity, parcelEntity, result);
+            if (!result.IsSuccess)
+                return result;
 
             DefineOffices(officeFromEntity, officeToEntity, parcelEntity);
 
@@ -48,19 +54,31 @@ namespace BusinessLogic.Services
             await _context.Set<Parcel>().AddAsync(parcelEntity);
 
             await _context.SaveChangesAsync();
+
+            return result;
         }
 
-        public async Task ChangeParcelStatusAsync(ParcelStatusHistoryModel statusModel)
+        public async Task<Result<object>> ChangeParcelStatusAsync(ParcelStatusHistoryModel statusModel)
         {
+            Result<object> result = new();
+            
             ParcelStatusHistory newStatus = _mapper.Map<ParcelStatusHistory>(statusModel);
 
             Parcel? parcel = await _context.Set<Parcel>().FindAsync(newStatus.ParcelId);
 
             if (parcel is null)
-                throw new ArgumentException("Parcel doesn't exist in context");
+            {
+                result.IsSuccess = false;
+                result.Errors.Add("Parcel doesn't exist in context");
+                return result;
+            }
 
             if (parcel.Status == statusModel.Status)
-                throw new ArgumentException("Parcel already has this status");
+            {
+                result.IsSuccess = false;
+                result.Errors.Add("Parcel already has this status");
+                return result;
+            }
 
             parcel.Status = newStatus.Status;
 
@@ -69,29 +87,39 @@ namespace BusinessLogic.Services
             await _context.Set<ParcelStatusHistory>().AddAsync(newStatus);
 
             await _context.SaveChangesAsync();
+
+            return result;
         }
 
-        public async Task<IEnumerable<ParcelModel>> GetParcelsInOfficeAsync(PostOfficeModel officeModel)
+        public async Task<Result<IEnumerable<ParcelModel>>> GetParcelsInOfficeAsync(PostOfficeModel officeModel)
         {
+            Result<IEnumerable<ParcelModel>> result = new();
+
             PostOffice office = _mapper.Map<PostOffice>(officeModel);
 
             PostOffice? officeInContext = await _context.Set<PostOffice>().FirstOrDefaultAsync(
                                o => o.Zip == office.Zip);
 
             if (officeInContext is null)
-                throw new ArgumentException("Office doesn't exist in context");
+            {
+                result.IsSuccess = false;
+                result.Errors.Add("Office doesn't exist in context");
+                return result;
+            }
 
             IEnumerable<Parcel> parcels = _context.Set<Parcel>()
                 .Where(p => p.OfficeToId == officeInContext.Id
                 && p.Status == ParcelStatus.RecievedByRecipient);
 
             IEnumerable<ParcelModel> parcelModels = _mapper.Map<IEnumerable<ParcelModel>>(parcels);
-                
-            return parcelModels;
+            
+            result.Value = parcelModels;
+            return result;
         }
 
-        public async Task<IEnumerable<ParcelModel>> GetClientArrivedParcelsAsync(ClientModel clientModel)
+        public async Task<Result<IEnumerable<ParcelModel>>> GetClientArrivedParcelsAsync(ClientModel clientModel)
         {
+            Result<IEnumerable<ParcelModel>> result = new();
             Client client = _mapper.Map<Client>(clientModel);
 
             Client? clientInContext = await _context.Set<Client>().FirstOrDefaultAsync(
@@ -100,7 +128,11 @@ namespace BusinessLogic.Services
                      && c.Surname == client.Surname);
 
             if (clientInContext is null)
-                throw new ArgumentException("Client doesn't exist in context");
+            {
+                result.IsSuccess = false;
+                result.Errors.Add("Client doesn't exist in context");
+                return result;
+            }
 
             IEnumerable<Parcel> parcels = _context.Set<Parcel>()
                 .Where(
@@ -109,7 +141,8 @@ namespace BusinessLogic.Services
 
             IEnumerable<ParcelModel> parcelModels = _mapper.Map<IEnumerable<ParcelModel>>(parcels);
 
-            return parcelModels;
+            result.Value = parcelModels;
+            return result;
         }
 
         private bool IsExistClientValid(Client client, Client clientInContext)
@@ -120,7 +153,7 @@ namespace BusinessLogic.Services
         }
 
 
-        private async Task ProcessSenderAsync(Client senderEntity, Parcel parcelEntity)
+        private async Task ProcessSenderAsync(Client senderEntity, Parcel parcelEntity, Result<object> result)
         {
             Client? senderInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == senderEntity.PhoneNumber);
 
@@ -135,11 +168,12 @@ namespace BusinessLogic.Services
             }
             else
             {
-                throw new ArgumentException("Sender phone number already owned");
+                result.IsSuccess = false;
+                result.Errors.Add("Sender phone number already owned");
             }
         }
 
-        private async Task ProcessReceiverAsync(Client receiverEntity, Parcel parcelEntity)
+        private async Task ProcessReceiverAsync(Client receiverEntity, Parcel parcelEntity, Result<object> result)
         {
             Client? receiverInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == receiverEntity.PhoneNumber);
 
@@ -154,7 +188,8 @@ namespace BusinessLogic.Services
             }
             else
             {
-                throw new ArgumentException("Receiver phone number already owned");
+                result.IsSuccess = false;
+                result.Errors.Add("Receiver phone number already owned");
             }
         }
 

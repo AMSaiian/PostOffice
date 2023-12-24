@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Interfaces;
+﻿using BusinessLogic;
+using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using BusinessLogic.Validation;
 using FluentValidation.Results;
@@ -23,17 +24,22 @@ namespace WebApi.Controllers
 
         // POST api/<AuthController>
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] AuthModel value)
+        public async Task<ActionResult<Result<TokenResponce>>> Post([FromBody] AuthModel value)
         {
+            Result<TokenResponce> result = new();
             ValidationResult validationResult = await _validator.ValidateAsync(value);
 
             if (validationResult.IsValid)
             {
-                var token = await _service.LoginAsync(value);
-                return Ok(token);
+                result = await _service.LoginAsync(value);
+                return Ok(result);
             }
-
-            return BadRequest(validationResult.Errors);
+            else
+            {
+                result.IsSuccess = false;
+                result.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(result);
+            }
         }
     }
 }

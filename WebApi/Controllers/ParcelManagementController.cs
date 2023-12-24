@@ -1,4 +1,5 @@
-﻿using BusinessLogic.Interfaces;
+﻿using BusinessLogic;
+using BusinessLogic.Interfaces;
 using BusinessLogic.Validation;
 using FluentValidation;
 using FluentValidation.Results;
@@ -34,10 +35,12 @@ namespace WebApi.Controllers
         }
         
         // POST api/<ParcelManagementController>
-        [Authorize(Roles = "Operator")]
+        //[Authorize(Roles = "Operator")]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] CreateParcelWrap value)
+        public async Task<ActionResult<Result<object>>> Post([FromBody] CreateParcelWrap value)
         {
+            Result<object> result = new();
+            
             ValidationResult senderValidation = await _clientValidator.ValidateAsync(value.Sender);
             ValidationResult receiverValidation = await _clientValidator.ValidateAsync(value.Receiver);
             ValidationResult officeFromValidation = await _postOfficeValidator.ValidateAsync(value.OfficeFrom);
@@ -58,16 +61,24 @@ namespace WebApi.Controllers
 
             if (isValid)
             {
-                await _service.CreateParcelAsync(
+                result = await _service.CreateParcelAsync(
                 value.Sender, value.Receiver,
                 value.OfficeFrom, value.OfficeTo,
                 value.Items);
 
-                return Ok();
+                return Ok(result);
             }
             else
-                return BadRequest();
+            {
+                result.IsSuccess = false;
+                result.Errors.AddRange(senderValidation.Errors.Select(e => e.ErrorMessage));
+                result.Errors.AddRange(receiverValidation.Errors.Select(e => e.ErrorMessage));
+                result.Errors.AddRange(officeFromValidation.Errors.Select(e => e.ErrorMessage));
+                result.Errors.AddRange(officeToValidation.Errors.Select(e => e.ErrorMessage));
+                result.Errors.AddRange(parcelItemValidation.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
 
+                return BadRequest(result);
+            }
         }
     }
 }

@@ -4,6 +4,6 @@ namespace BusinessLogic.Interfaces
 {
     public interface IAuthService
     {
-        public Task<TokenResponce> LoginAsync(AuthModel credits);
+        public Task<Result<TokenResponce>> LoginAsync(AuthModel credits);
     }
 }

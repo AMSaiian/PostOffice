@@ -4,9 +4,15 @@ namespace BusinessLogic.Interfaces
 {
     public interface IParcelManagementService
     {
-        public Task CreateParcelAsync(
+        public Task<Result<object>> CreateParcelAsync(
             ClientModel sender, ClientModel receiver,
             PostOfficeModel officeFrom, PostOfficeModel officeTo,
             IEnumerable<ParcelItemModel> items);
+
+        public Task<Result<object>> ChangeParcelStatusAsync(ParcelStatusHistoryModel statusModel);
+
+        public Task<Result<IEnumerable<ParcelModel>>> GetParcelsInOfficeAsync(PostOfficeModel officeModel);
+
+        public Task<Result<IEnumerable<ParcelModel>>> GetClientArrivedParcelsAsync(ClientModel clientModel);
     }
 }

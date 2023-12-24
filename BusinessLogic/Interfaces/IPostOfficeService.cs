@@ -4,10 +4,10 @@ namespace BusinessLogic.Interfaces
 {
     public interface IPostOfficeService
     {
-        Task<PostOfficeModel> GetByIdAsync(Guid id);
-        Task<IEnumerable<PostOfficeModel>> GetAsync();
-        Task AddAsync(PostOfficeModel model);
-        Task UpdateAsync(PostOfficeModel model);
-        Task DeleteAsync(Guid id);
+        Task<Result<PostOfficeModel>> GetByIdAsync(Guid id);
+        Task<Result<IEnumerable<PostOfficeModel>>> GetAsync();
+        Task<Result<object>> AddAsync(PostOfficeModel model);
+        Task<Result<object>> UpdateAsync(PostOfficeModel model);
+        Task<Result<object>> DeleteAsync(Guid id);
     }
 }

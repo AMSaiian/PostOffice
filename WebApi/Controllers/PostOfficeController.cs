@@ -1,7 +1,9 @@
-﻿using BusinessLogic.Interfaces;
+﻿using BusinessLogic;
+using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using BusinessLogic.Validation;
 using Data.Enums;
+using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Extensions;
@@ -27,52 +29,57 @@ namespace WebApi.Controllers
         // GET: api/<PostOfficeController>
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<PostOfficeModel>>> Get()
+        public async Task<ActionResult<Result<IEnumerable<PostOfficeModel>>>> Get()
         {
-            var models = await _service.GetAsync();
-            return Ok(models);
+            Result<IEnumerable<PostOfficeModel>> result = await _service.GetAsync();
+            return Ok(result);
         }
 
         // GET api/<PostOfficeController>/5
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<PostOfficeModel>> Get(Guid id)
+        public async Task<ActionResult<Result<PostOfficeModel>>> Get(Guid id)
         {
-            var model = await _service.GetByIdAsync(id);
-            return Ok(model);
+            Result<PostOfficeModel> result = await _service.GetByIdAsync(id);
+            return Ok(result);
         }
 
         // POST api/<PostOfficeController>
         [Authorize(Roles = "Admin")]
         [HttpPost]
-        public async Task<ActionResult> Post([FromBody] PostOfficeModel value)
+        public async Task<ActionResult<Result<object>>> Post([FromBody] PostOfficeModel value)
         {
-            value.Id = Guid.NewGuid();
-            var validationResult = await _validator.ValidateAsync(value);
+            Result<object> result = new();
+            ValidationResult validationResult = await _validator.ValidateAsync(value);
             if (validationResult.IsValid)
             {
-                await _service.AddAsync(value);
-                return Ok(value);
+                result = await _service.AddAsync(value);
+                return Ok(result);
             }
-            return BadRequest(validationResult.Errors);
+            else
+            {
+                result.IsSuccess = false;
+                result.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(result);
+            }
         }
 
         // PUT api/<PostOfficeController>/5
         [Authorize(Roles = "Admin")]
         [HttpPut("{id}")]
-        public async Task<ActionResult> Put(Guid id, [FromBody] PostOfficeModel value)
+        public async Task<ActionResult<Result<object>>> Put(Guid id, [FromBody] PostOfficeModel value)
         {
-            await _service.UpdateAsync(value);
-            return Ok(id);
+            Result<object> result = await _service.UpdateAsync(value);
+            return Ok(result);
         }
 
         // DELETE api/<PostOfficeController>/5
         [Authorize(Roles = "Admin")]
         [HttpDelete("{id}")]
-        public async Task<ActionResult> Delete(Guid id)
+        public async Task<ActionResult<Result<object>>> Delete(Guid id)
         {
-            await _service.DeleteAsync(id);
-            return Ok(id);
+            Result<object> result = await _service.DeleteAsync(id);
+            return Ok(result);
         }
     }
 }
