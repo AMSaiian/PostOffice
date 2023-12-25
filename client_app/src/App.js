@@ -5,32 +5,24 @@ import { Login } from "./components/Login";
 import { OperatorPage } from './components/OperatorPage';
 import { ManagerPage } from './components/ManagerPage';
 import { AdminPage } from './components/AdminPage';
+import { Header } from './components/Header';
+import PrivateRoute from './PrivateRoute';
 
 function App() {
-
-  useEffect(() => {
-    const handleBeforeUnload = () => {
-      localStorage.removeItem('token');
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
   
-
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Navigate to="/login" />} />
-        <Route path="/login" element={<Login />} />
-        <Route path="/operator" element={<OperatorPage />} />
-        <Route path="/manager" element={<ManagerPage />} />
-        <Route path="/admin" element={<AdminPage />} />
-      </Routes>
-    </Router>
+    <div>
+      <Router>
+        <Header names={["1",'2','3']} />
+        <Routes>
+          <Route path="/" element={<PrivateRoute allowedRole={-1}><Login/></PrivateRoute>} />
+          <Route path="/login" element={<PrivateRoute allowedRole={-1}><Login/></PrivateRoute>} />
+          <Route path="/operator" element={<PrivateRoute allowedRole={2}><OperatorPage/></PrivateRoute>} />
+          <Route path="/manager" element={<PrivateRoute allowedRole={1}><ManagerPage/></PrivateRoute>} />
+          <Route path="/admin" element={<PrivateRoute allowedRole={0}><AdminPage/></PrivateRoute>} />
+        </Routes>
+      </Router>
+    </div>
   );
 }
 

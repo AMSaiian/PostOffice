@@ -5,6 +5,7 @@ export const Login = () => {
     const [phone, setPhone] = useState("");
     const [password, setPassword] = useState("");
     const navigate = useNavigate();
+    const [errors, setErrors] = useState([]);
 
     const handleSubmit = (e) => {
         e.preventDefault();
@@ -25,7 +26,6 @@ export const Login = () => {
               setPhone("");
               setPassword("");
       
-              console.log(data);
               if (data.isSuccess) {
                 const token = data.value;
                 localStorage.setItem("token", JSON.stringify(token));
@@ -38,7 +38,7 @@ export const Login = () => {
                     navigate("/admin");
                 }
               } else {
-                console.log(data.errors);
+                setErrors(data.errors);
               }
             })
             .catch((err) => {
@@ -58,6 +58,13 @@ export const Login = () => {
               <input type="password" className="form-control" id="password-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" />
             </div>
             <button type="submit" className="btn btn-primary">Login</button>
+            <div>
+              {
+              errors.map((element, idx) => {
+                return <p key={idx}>{element}</p>
+              })
+              }
+            </div>
         </form>
     )
 }

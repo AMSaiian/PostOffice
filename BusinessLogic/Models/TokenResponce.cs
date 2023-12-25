@@ -12,5 +12,7 @@ namespace BusinessLogic.Models
         public UserRole? Role { get; set; }
 
         public Guid? PostOfficeId { get; set; }
+
+        public DateTime? ExpireTime { get; set; }
     }
 }

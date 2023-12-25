@@ -17,10 +17,11 @@ namespace BusinessLogic
             _configuration = configuration;
         }
 
-        public string CreateToken(Staff userStaff)
+        public (string, DateTime) CreateToken(Staff userStaff)
         {
             var secretKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["JwtSettings:Secret"]));
             var signInCredentials = new SigningCredentials(secretKey, SecurityAlgorithms.HmacSha256Signature);
+            var expireTime = DateTime.Now.AddMinutes(double.Parse(_configuration["JwtSettings:ExpiryTime"]));
 
             var options = new JwtSecurityToken(
                 issuer: _configuration["JwtSettings:Issuer"],
@@ -30,13 +31,13 @@ namespace BusinessLogic
                     new(JwtRegisteredClaimNames.Sub, userStaff.Id.ToString()),
                     new(ClaimTypes.Role, userStaff.Role.ToString()),
                 },
-                expires:DateTime.Now.AddMinutes(double.Parse(_configuration["JwtSettings:ExpiryTime"])),
+                expires:expireTime,
                 signingCredentials:signInCredentials
             );
 
             var token = new JwtSecurityTokenHandler().WriteToken(options);
 
-            return token;
+            return (token, expireTime);
         }
     }
 }

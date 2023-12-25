@@ -45,10 +45,11 @@ namespace BusinessLogic.Services
 
             TokenResponce token = new()
             {
-                JwtToken = tokenValue, 
+                JwtToken = tokenValue.Item1, 
                 StaffId = userStaff.Id,
                 Role = userStaff.Role,
-                PostOfficeId = userStaff.PostOfficeId
+                PostOfficeId = userStaff.PostOfficeId,
+                ExpireTime = tokenValue.Item2
             };
 
             result.Value = token;

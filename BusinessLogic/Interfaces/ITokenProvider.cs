@@ -4,6 +4,6 @@ namespace BusinessLogic.Interfaces
 {
     public interface ITokenProvider
     {
-        public string CreateToken(Staff userStaff);
+        public (string, DateTime) CreateToken(Staff userStaff);
     }
 }
