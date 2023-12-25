@@ -57,11 +57,11 @@ export const Login = () => {
               <label htmlFor="password-input">Password</label>
               <input type="password" className="form-control" id="password-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" />
             </div>
-            <button type="submit" className="btn btn-primary">Login</button>
+            <button type="submit" onSubmit={(e) => handleSubmit(e)} className="btn btn-primary">Login</button>
             <div>
               {
               errors.map((element, idx) => {
-                return <p key={idx}>{element}</p>
+                return <p key={"login-error-" + idx}>{element}</p>
               })
               }
             </div>
