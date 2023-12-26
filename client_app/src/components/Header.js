@@ -16,7 +16,7 @@ export const Header = ({names, paths}) => {
                 })
             }
             </div>
-            <div className="header-signOut=part">
+            <div className="header-signOut-part">
                 <button className="header-signout" onClick={(e) => signOut(e, navigate)}>Sign out</button>
             </div>
         </header>

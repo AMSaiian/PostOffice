@@ -47,24 +47,28 @@ export const Login = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit}>
-            <h1>Login</h1>
-            <div className="form-group">
-              <label htmlFor="phone-input">Phone number</label>
-              <input type="tel" className="form-control" id="phone-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Your phone number" />
-            </div>
-            <div className="form-group"> 
-              <label htmlFor="password-input">Password</label>
-              <input type="password" className="form-control" id="password-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" />
-            </div>
-            <button type="submit" onSubmit={(e) => handleSubmit(e)} className="btn btn-primary">Login</button>
-            <div>
-              {
+        <main className="login-main">
+          <div className="login-form-wraper">
+            <form onSubmit={handleSubmit}>
+                <h1>Login</h1>
+                <div className="login-form-group">
+                  <label htmlFor="phone-input">Phone number</label>
+                  <input type="tel" className="login-form-control" id="phone-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Your phone number" />
+                </div>
+                <div className="form-group"> 
+                  <label htmlFor="password-input">Password</label>
+                  <input type="password" className="login-form-control" id="password-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" />
+                </div>
+                <button type="submit" onSubmit={(e) => handleSubmit(e)} className="login-button">Login</button>
+            </form>
+          </div>
+          <div className="loginErrorWraper">
+            {
               errors.map((element, idx) => {
-                return <p key={"login-error-" + idx}>{element}</p>
+                return <p key={"login-error-" + idx} className="login-error">{element}</p>
               })
-              }
-            </div>
-        </form>
+            }
+          </div>
+        </main>
     )
 }
