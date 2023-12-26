@@ -37,6 +37,10 @@ namespace BusinessLogic.Services
             Parcel parcelEntity = new Parcel();
             IEnumerable<ParcelItem> parcelItems = _mapper.Map<IEnumerable<ParcelItem>>(items);
 
+            await CheckIfSameNumber(senderEntity, receiverEntity, result);
+            if (!result.IsSuccess)
+                return result;
+
             await ProcessSenderAsync(senderEntity, parcelEntity, result);
             if (!result.IsSuccess)
                 return result;
@@ -152,6 +156,15 @@ namespace BusinessLogic.Services
                    client.PhoneNumber == clientInContext.PhoneNumber;
         }
 
+        private Task CheckIfSameNumber(Client senderEntity, Client receiverEntity, Result<object> result)
+        {
+            if (senderEntity.PhoneNumber == receiverEntity.PhoneNumber)
+            {
+                result.IsSuccess = false;
+                result.Errors.Add("Sender and receiver phone numbers are the same");
+            }
+            return Task.CompletedTask;
+        }
 
         private async Task ProcessSenderAsync(Client senderEntity, Parcel parcelEntity, Result<object> result)
         {
@@ -195,8 +208,11 @@ namespace BusinessLogic.Services
 
         private void DefineOffices(PostOffice officeFromEntity, PostOffice officeToEntity, Parcel parcelEntity)
         {
-            parcelEntity.OfficeFromId = officeFromEntity.Id;
-            parcelEntity.OfficeToId = officeToEntity.Id;
+            PostOffice? officeFromInContext = _context.Set<PostOffice>().FirstOrDefault(o => o.Zip == officeFromEntity.Zip);
+            PostOffice? officeToInContext = _context.Set<PostOffice>().FirstOrDefault(o => o.Zip == officeToEntity.Zip);
+
+            parcelEntity.OfficeFromId = officeFromInContext.Id;
+            parcelEntity.OfficeToId = officeToInContext.Id;
             parcelEntity.Status = ParcelStatus.RecievedBySender;
         }
 

@@ -9,9 +9,11 @@ namespace BusinessLogic.Models
 
         public Guid? StaffId { get; set; }
 
-        public UserRole? Role { get; set; }
+        public string? Fullname { get; set; }
 
-        public Guid? PostOfficeId { get; set; }
+        public string? Role { get; set; }
+
+        public string? PostOfficeZip { get; set; }
 
         public DateTime? ExpireTime { get; set; }
     }

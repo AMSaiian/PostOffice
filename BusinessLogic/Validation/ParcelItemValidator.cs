@@ -9,7 +9,7 @@ namespace BusinessLogic.Validation
         {
             //RuleFor(pi => pi.Id).NotEmpty();
 
-            RuleFor(pi => pi.Description).NotNull().NotEmpty().Matches(@"^[A-Za-z.,'\s\-]+$");
+            RuleFor(pi => pi.Description).NotNull().NotEmpty().Matches(@"^[A-Za-z.,'""\s\-]+$");
 
             RuleFor(pi => pi.Characteristics).NotNull().SetValidator(new GabaritesModelValidation());
 

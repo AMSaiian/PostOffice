@@ -9,10 +9,10 @@ namespace BusinessLogic.Validation
         {
             //RuleFor(po => po.Id).NotEmpty();
 
-            RuleFor(po => po.Zip).NotNull().Length(5).WithMessage("Zip length must be 5")
+            RuleFor(po => po.Zip).NotNull().NotEmpty().Length(5).WithMessage("Zip length must be 5")
                 .Matches("^[0-9]*$").WithMessage("Zip must contain only numbers");
 
-            RuleFor(po => po.Location).NotNull().SetValidator(new AddressModelValidator());
+            RuleFor(po => po.Location).SetValidator(new AddressModelValidator());
 
             //RuleFor(po => po.SendParcelsId).Must(list => list.Distinct().Count() == list.Count())
             //    .WithMessage("Send parcels id list has repeats");

@@ -10,9 +10,9 @@ export const AdminPage = () => {
     return (        
     <><Header names={["1", '2', '3']} paths={["newPostOffice", "newPostOfficeManager", "allPostOffices"]} />
     <Routes>
-      <Route path="newPostOffice" element={<PrivateRoute allowedRole={0}><NewPostOffice/></PrivateRoute>} />
-      <Route path="newPostOfficeManager" element={<PrivateRoute allowedRole={0}><NewPostOfficeManager/></PrivateRoute>} />
-      <Route path="allPostOffices" element={<PrivateRoute allowedRole={0}><AllPostOffices/></PrivateRoute>} />
+      <Route path="newPostOffice" element={<PrivateRoute allowedRole={"Admin"}><NewPostOffice/></PrivateRoute>} />
+      <Route path="newPostOfficeManager" element={<PrivateRoute allowedRole={"Admin"}><NewPostOfficeManager/></PrivateRoute>} />
+      <Route path="allPostOffices" element={<PrivateRoute allowedRole={"Admin"}><AllPostOffices/></PrivateRoute>} />
     </Routes>
     <h1>This is AdminPage</h1></>
     )

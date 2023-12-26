@@ -13,11 +13,11 @@ function App() {
     <div>
       <Router>
         <Routes>
-          <Route path="/" element={<PrivateRoute allowedRole={-1}><Login/></PrivateRoute>} />
-          <Route path="/login" element={<PrivateRoute allowedRole={-1}><Login/></PrivateRoute>} />
-          <Route path="/operator/*" element={<PrivateRoute allowedRole={2}><OperatorPage/></PrivateRoute>} />
-          <Route path="/manager/*" element={<PrivateRoute allowedRole={1}><ManagerPage/></PrivateRoute>} />
-          <Route path="/admin/*" element={<PrivateRoute allowedRole={0}><AdminPage/></PrivateRoute>} />
+          <Route path="/" element={<PrivateRoute allowedRole={"Unknown"}><Login/></PrivateRoute>} />
+          <Route path="/login" element={<PrivateRoute allowedRole={"Unknown"}><Login/></PrivateRoute>} />
+          <Route path="/operator/*" element={<PrivateRoute allowedRole={"Operator"}><OperatorPage/></PrivateRoute>} />
+          <Route path="/manager/*" element={<PrivateRoute allowedRole={"Manager"}><ManagerPage/></PrivateRoute>} />
+          <Route path="/admin/*" element={<PrivateRoute allowedRole={"Admin"}><AdminPage/></PrivateRoute>} />
         </Routes>
       </Router>
     </div>

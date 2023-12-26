@@ -22,7 +22,8 @@ namespace BusinessLogic.Services
         public async Task<Result<TokenResponce>> LoginAsync(AuthModel credits)
         {
             Result<TokenResponce> result = new();
-            Staff? userStaff = await _context.Set<Staff>().FirstOrDefaultAsync(s => s.PhoneNumber == credits.PhoneNumber);
+            Staff? userStaff = await _context.Set<Staff>().Include(staff => staff.PostOffice)
+                .FirstOrDefaultAsync(s => s.PhoneNumber == credits.PhoneNumber);
 
             if (userStaff is null)
             {
@@ -47,8 +48,9 @@ namespace BusinessLogic.Services
             {
                 JwtToken = tokenValue.Item1, 
                 StaffId = userStaff.Id,
-                Role = userStaff.Role,
-                PostOfficeId = userStaff.PostOfficeId,
+                Fullname = userStaff.Surname + " " + userStaff.Name,
+                Role = userStaff.Role.ToString(),
+                PostOfficeZip = userStaff?.PostOffice?.Zip ?? "",
                 ExpireTime = tokenValue.Item2
             };
 

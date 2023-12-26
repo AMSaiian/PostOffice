@@ -6,11 +6,11 @@ const PrivateRoute = ({ allowedRole, children }) => {
   const currentTime = new Date();
   let userRole;
   if (token == null) {
-    userRole = -1;
+    userRole = "Unknown";
   }
   else if (new Date(token.expireTime) <= currentTime) {
     localStorage.removeItem("token");
-    userRole = -1;
+    userRole = "Unknown";
   }
   else {
     userRole = token.role;
@@ -19,11 +19,11 @@ const PrivateRoute = ({ allowedRole, children }) => {
   if (allowedRole === userRole) {
     return children;
   } else {
-    if (userRole === 0) {
+    if (userRole === "Admin") {
       return <Navigate to="/admin" />;
-    } else if (userRole === 1) {
+    } else if (userRole === "Manager") {
       return <Navigate to="/manager" />;
-    } else if (userRole === 2) {
+    } else if (userRole === "Operator") {
       return <Navigate to="/operator" />;
     } else
       return <Navigate to="/login" />;

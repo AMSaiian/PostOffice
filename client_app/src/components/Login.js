@@ -30,11 +30,11 @@ export const Login = () => {
                 const token = data.value;
                 localStorage.setItem("token", JSON.stringify(token));
 
-                if (data.value.role === 2) {
+                if (data.value.role === "Operator") {
                     navigate("/operator");
-                } else if (data.value.role === 1) {
+                } else if (data.value.role === "Manager") {
                     navigate("/manager");
-                } else if (data.value.role === 0) {
+                } else if (data.value.role === "Admin") {
                     navigate("/admin");
                 }
               } else {
@@ -59,7 +59,7 @@ export const Login = () => {
                   <label htmlFor="password-input">Password</label>
                   <input type="password" className="login-form-control" id="password-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" />
                 </div>
-                <button type="submit" onSubmit={(e) => handleSubmit(e)} className="login-button">Login</button>
+                <button type="submit" onSubmit={(e) => handleSubmit(e)} className="buttons" id="login-buttons">Login</button>
             </form>
           </div>
           <div className="loginErrorWraper">

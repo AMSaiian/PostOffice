@@ -13,6 +13,7 @@ namespace WebApi
         {
             self.AddScoped<IPostOfficeService, PostOfficeService>();
             self.AddScoped<IParcelManagementService, ParcelManagementService>();
+            self.AddScoped<IItemCategoryService, ItemCategoryService>();
             self.AddScoped<IAuthService, AuthService>();
             
             return self;

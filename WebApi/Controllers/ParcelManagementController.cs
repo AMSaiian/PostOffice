@@ -35,7 +35,7 @@ namespace WebApi.Controllers
         }
         
         // POST api/<ParcelManagementController>
-        //[Authorize(Roles = "Operator")]
+        [Authorize(Roles = "Operator")]
         [HttpPost]
         public async Task<ActionResult<Result<object>>> Post([FromBody] CreateParcelWrap value)
         {
@@ -66,7 +66,10 @@ namespace WebApi.Controllers
                 value.OfficeFrom, value.OfficeTo,
                 value.Items);
 
-                return Ok(result);
+                if (result.IsSuccess)
+                    return Ok(result);
+                else
+                    return BadRequest(result);
             }
             else
             {
