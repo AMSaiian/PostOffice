@@ -8,8 +8,8 @@ namespace BusinessLogic.Models
 
         public string? Name { get; set; }
 
-        public IList<Guid> ParcelItemsId { get; set; }
+        //public IList<Guid> ParcelItemsId { get; set; }
 
-        public IList<Guid> CategoryMarksId { get; set; }
+        //public IList<Guid> CategoryMarksId { get; set; }
     }
 }

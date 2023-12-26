@@ -17,8 +17,8 @@ namespace BusinessLogic.Models
 
         public Guid? ReceiverId { get; set; }
 
-        public IList<Guid> ParcelFillingId { get; set; }
+        //public IList<Guid> ParcelFillingId { get; set; }
 
-        public IList<Guid> ParcelHistoryId { get; set; }
+        //public IList<Guid> ParcelHistoryId { get; set; }
     }
 }

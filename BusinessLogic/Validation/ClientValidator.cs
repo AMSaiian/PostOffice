@@ -17,13 +17,13 @@ namespace BusinessLogic.Validation
 
             //RuleFor(c => c.Email).EmailAddress().When(c => c.Email is not null);
 
-            RuleFor(c => c.SentParcelsId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Sent parcels id list has repeats");
-            RuleForEach(c => c.SentParcelsId).NotNull().NotEmpty();
+            //RuleFor(c => c.SentParcelsId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Sent parcels id list has repeats");
+            //RuleForEach(c => c.SentParcelsId).NotNull().NotEmpty();
 
-            RuleFor(c => c.AddressedParcelsId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Addressed parcels id list has repeats");
-            RuleForEach(c => c.AddressedParcelsId).NotNull().NotEmpty();
+            //RuleFor(c => c.AddressedParcelsId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Addressed parcels id list has repeats");
+            //RuleForEach(c => c.AddressedParcelsId).NotNull().NotEmpty();
         }
     }
 }

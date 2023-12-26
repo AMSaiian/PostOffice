@@ -14,8 +14,8 @@ namespace BusinessLogic.Models
 
         public string? PhoneNumber { get; set; }
 
-        public IList<Guid> SentParcelsId { get; set; }
+        //public IList<Guid> SentParcelsId { get; set; }
 
-        public IList<Guid> AddressedParcelsId { get; set; }
+        //public IList<Guid> AddressedParcelsId { get; set; }
     }
 }

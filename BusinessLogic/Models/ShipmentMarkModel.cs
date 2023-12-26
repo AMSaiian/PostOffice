@@ -11,6 +11,6 @@ namespace BusinessLogic.Models
 
         public double? PriceCoef { get; set; }
 
-        public IList<Guid> CategoryMarksId { get; set; }
+        //public IList<Guid> CategoryMarksId { get; set; }
     }
 }

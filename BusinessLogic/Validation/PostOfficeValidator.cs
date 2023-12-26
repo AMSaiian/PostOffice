@@ -14,17 +14,17 @@ namespace BusinessLogic.Validation
 
             RuleFor(po => po.Location).NotNull().SetValidator(new AddressModelValidator());
 
-            RuleFor(po => po.SendParcelsId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Send parcels id list has repeats");
-            RuleForEach(po => po.SendParcelsId).NotNull().NotEmpty();
+            //RuleFor(po => po.SendParcelsId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Send parcels id list has repeats");
+            //RuleForEach(po => po.SendParcelsId).NotNull().NotEmpty();
 
-            RuleFor(po => po.ReceiveParcelsId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Receive parcels id list has repeats");
-            RuleForEach(po => po.ReceiveParcelsId).NotNull().NotEmpty();
+            //RuleFor(po => po.ReceiveParcelsId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Receive parcels id list has repeats");
+            //RuleForEach(po => po.ReceiveParcelsId).NotNull().NotEmpty();
 
-            RuleFor(po => po.OfficeStaffId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Office staff id list has repeats");
-            RuleForEach(po => po.OfficeStaffId).NotNull().NotEmpty();
+            //RuleFor(po => po.OfficeStaffId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Office staff id list has repeats");
+            //RuleForEach(po => po.OfficeStaffId).NotNull().NotEmpty();
         }
     }
 }

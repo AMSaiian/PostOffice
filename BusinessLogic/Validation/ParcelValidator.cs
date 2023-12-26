@@ -19,13 +19,13 @@ namespace BusinessLogic.Validation
 
             //RuleFor(p => p.SenderId).NotNull().NotEmpty();
 
-            RuleFor(p => p.ParcelFillingId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Parcel filling id list has repeats");
-            RuleForEach(p => p.ParcelFillingId).NotNull().NotEmpty();
+            //RuleFor(p => p.ParcelFillingId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Parcel filling id list has repeats");
+            //RuleForEach(p => p.ParcelFillingId).NotNull().NotEmpty();
 
-            RuleFor(p => p.ParcelHistoryId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Parcel history id list has repeats");
-            RuleForEach(p => p.ParcelHistoryId).NotNull().NotEmpty();
+            //RuleFor(p => p.ParcelHistoryId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Parcel history id list has repeats");
+            //RuleForEach(p => p.ParcelHistoryId).NotNull().NotEmpty();
         }
     }
 }

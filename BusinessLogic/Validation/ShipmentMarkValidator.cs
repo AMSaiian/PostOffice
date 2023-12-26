@@ -13,9 +13,9 @@ namespace BusinessLogic.Validation
 
             RuleFor(sm => sm.PriceCoef).NotNull().GreaterThan(0);
 
-            RuleFor(sm => sm.CategoryMarksId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Category id list has repeats");
-            RuleForEach(sm => sm.CategoryMarksId).NotNull().NotEmpty();
+            //RuleFor(sm => sm.CategoryMarksId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Category id list has repeats");
+            //RuleForEach(sm => sm.CategoryMarksId).NotNull().NotEmpty();
         }
     }
 }

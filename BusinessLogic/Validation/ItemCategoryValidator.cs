@@ -11,13 +11,13 @@ namespace BusinessLogic.Validation
 
             RuleFor(ic => ic.Name).NotNull().NotEmpty().Matches(@"^[A-Za-z.,'\s\-]+$");
 
-            RuleFor(ic => ic.ParcelItemsId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Parcel items id list has repeats");
-            RuleForEach(ic => ic.ParcelItemsId).NotNull().NotEmpty();
+            //RuleFor(ic => ic.ParcelItemsId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Parcel items id list has repeats");
+            //RuleForEach(ic => ic.ParcelItemsId).NotNull().NotEmpty();
 
-            RuleFor(ic => ic.CategoryMarksId).Must(list => list.Distinct().Count() == list.Count())
-                .WithMessage("Marks id list has repeats");
-            RuleForEach(ic => ic.CategoryMarksId).NotNull().NotEmpty();
+            //RuleFor(ic => ic.CategoryMarksId).Must(list => list.Distinct().Count() == list.Count())
+            //    .WithMessage("Marks id list has repeats");
+            //RuleForEach(ic => ic.CategoryMarksId).NotNull().NotEmpty();
         }
     }
 }
