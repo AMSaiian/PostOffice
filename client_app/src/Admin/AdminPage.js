@@ -10,13 +10,12 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-d
 export const AdminPage = () => {
     return (        
     <>
-      <Header names={["1", '2', '3']} paths={["newPostOffice", "newPostOfficeManager", "allPostOffices"]} />
+      <Header names={["New post office", 'New post office manager', 'All post offices']} paths={["newPostOffice", "newPostOfficeManager", "allPostOffices"]} />
       <Routes>
         <Route path="newPostOffice" element={<PrivateRoute allowedRole={"Admin"}><NewPostOffice/></PrivateRoute>} />
         <Route path="newPostOfficeManager" element={<PrivateRoute allowedRole={"Admin"}><NewPostOfficeManager/></PrivateRoute>} />
         <Route path="allPostOffices" element={<PrivateRoute allowedRole={"Admin"}><AllPostOffices/></PrivateRoute>} />
       </Routes>
-      <h1>This is AdminPage</h1>
       <Footer />
     </>
     )

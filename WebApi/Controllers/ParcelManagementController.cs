@@ -80,6 +80,8 @@ namespace WebApi.Controllers
                 result.Errors.AddRange(officeToValidation.Errors.Select(e => e.ErrorMessage));
                 result.Errors.AddRange(parcelItemValidation.SelectMany(v => v.Errors).Select(e => e.ErrorMessage));
 
+                result.Errors = result.Errors.Distinct().ToList();
+
                 return BadRequest(result);
             }
         }

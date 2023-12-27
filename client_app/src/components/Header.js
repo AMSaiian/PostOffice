@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import signOut from "../SignOut";
+import '../style/header.css';
 
 export const Header = ({names, paths}) => {
     const navigate = useNavigate();

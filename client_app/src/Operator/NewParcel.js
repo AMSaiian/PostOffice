@@ -1,5 +1,7 @@
-import { useEffect, useState } from "react"
+import { useEffect, useState, useRef } from "react";
+import React from "react";
 import Select from 'react-select';
+import '../style/newParcelMain.css';
 
 export const NewParcel = () => {
   const [categoryDropDownOptions, setCategoryDropDownOptions] = useState([]); 
@@ -120,7 +122,23 @@ export const NewParcel = () => {
       .then((response) => response.json())
       .then((data) => {
         if (data.isSuccess) {
-          setOutput(["Parcel created!"])
+          window.alert("Parcel created!");
+          window.location.reload(false);
+          // setSenderName("");
+          // setSenderSurname("");
+          // setSenderPhone("+380");
+
+          // setReceiverName("");
+          // setReceiverSurname("");
+          // setReceiverPhone("+380");
+
+          // setDescription("");
+
+          // setWidth(0);
+          // setHeight(0);
+          // setDepth(0);
+          // setWeight(0);
+          
         } else {
           setOutput(data.errors);
         }
@@ -136,69 +154,74 @@ export const NewParcel = () => {
         
         <div className="sender-part-wrapper">
           <h1>Sender</h1>
-          <div className="sender-name-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="sender-name-wrapper">
             <label htmlFor="sender-name">Name</label>
             <input type="fname" className="sender-form-control" id="sender-name" value={senderName} onChange={(e) => setSenderName(e.target.value)} placeholder="Name" />
           </div>
-          <div className="sender-surname-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="sender-surname-wrapper">
             <label htmlFor="sender-surname">Surname</label>
             <input type="lname" className="sender-form-control" id="sender-surname" value={senderSurname} onChange={(e) => setSenderSurname(e.target.value)} placeholder="Surname" />
           </div>
-          <div className="sender-phone-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="sender-phone-wrapper">
             <label htmlFor="sender-phone">Phone number</label>
             <input type="tel" className="sender-form-control" id="sender-phone" value={senderPhone} onChange={(e) => setSenderPhone(e.target.value)} placeholder="Phone number" />
           </div>
         </div>
-
+        
         <div className="parcel-item-wrapper">
-          <div className="item-category-wrapper">
+          <h1>Item</h1>
+          <div className="new-parcel-form-control-wrappers" id="item-category-wrapper">
+            <label htmlFor="item-category">Category</label>
             <Select
-              className="parcel-item-form-control"
+              className="parcel-item-form-control-1"
               name="item-category"
               defaultValue={itemCategoryId}
               onChange={item => setItemCategoryId(item.value)}
               options={categoryDropDownOptions}
             />
           </div>
-          <div className="description-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="description-wrapper">
             <label htmlFor="description">Description</label>
             <input type="text" className="parcel-item-form-control" id="description" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Description" />
           </div>
-          <div className="width-wrapper">
+        </div>
+        <div className="parcel-char-wrapper">
+          <h1>Characteristics</h1>
+          <div className="new-parcel-form-control-wrappers" id="width-wrapper">
             <label htmlFor="width">Width</label>
             <input type="number" className="parcel-item-form-control" id="width" value={width} onChange={(e) => setWidth(e.target.value)} placeholder="mm" />
           </div>
-          <div className="height-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="height-wrapper">
             <label htmlFor="height">Height</label>
             <input type="number" className="parcel-item-form-control" id="height" value={height} onChange={(e) => setHeight(e.target.value)} placeholder="mm" />
           </div>
-          <div className="depth-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="depth-wrapper">
             <label htmlFor="depth">Depth</label>
             <input type="number" className="parcel-item-form-control" id="depth" value={depth} onChange={(e) => setDepth(e.target.value)} placeholder="mm" />
           </div>
-          <div className="weight-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="weight-wrapper">
             <label htmlFor="weight">Weight</label>
             <input type="number" className="parcel-item-form-control" id="weight" value={weight} onChange={(e) => setWeight(e.target.value)} placeholder="g" />
           </div>
         </div>
-        
         <div className="receiver-part-wrapper">
           <h1>Receiver</h1>
-          <div className="receiver-name-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="receiver-name-wrapper">
             <label htmlFor="receiver-name">Name</label>
             <input type="fname" className="receiver-form-control" id="receiver-name" value={receiverName} onChange={(e) => setReceiverName(e.target.value)} placeholder="Name" />
           </div>
-          <div className="receiver-surname-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="receiver-surname-wrapper">
             <label htmlFor="receiver-surname">Surname</label>
             <input type="lname" className="receiver-form-control" id="receiver-surname" value={receiverSurname} onChange={(e) => setReceiverSurname(e.target.value)} placeholder="Surname" />
           </div>
-          <div className="receiver-phone-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="receiver-phone-wrapper">
             <label htmlFor="receiver-phone">Phone number</label>
             <input type="tel" className="receiver-form-control" id="receiver-phone" value={receiverPhone} onChange={(e) => setReceiverPhone(e.target.value)} placeholder="Phone number" />
           </div>
-          <div className="receiver-zip-wrapper">
+          <div className="new-parcel-form-control-wrappers" id="receiver-zip-wrapper">
+            <label htmlFor="receiver-zip">Receiver zip</label>
             <Select
-              className="parcel-item-form-control"
+              className="parcel-item-form-control-1"
               name="receiver-zip"
               defaultValue={receiverZip}
               onChange={item => setReceiverZip(item.value)}

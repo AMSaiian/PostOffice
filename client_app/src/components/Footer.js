@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import '../style/footer.css';
 
 export const Footer = () => {
   const token = JSON.parse(localStorage.getItem("token"));

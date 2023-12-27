@@ -16,7 +16,6 @@ export const OperatorPage = () => {
           <Route path="acceptParcels" element={<PrivateRoute allowedRole={"Operator"}><AcceptParcels/></PrivateRoute>} />
           <Route path="giveParcel" element={<PrivateRoute allowedRole={"Operator"}><GiveParcel/></PrivateRoute>} />
         </Routes>
-        <h1>This is OperatorPage</h1>
         <Footer/>
       </>
       )

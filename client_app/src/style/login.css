@@ -34,6 +34,7 @@
 .login-error-wraper {
   align-items: center;
   justify-content: flex-start;
+  min-height: 50vh;
 }
 
 .login-error {
