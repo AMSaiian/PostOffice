@@ -11,7 +11,7 @@ namespace BusinessLogic.Interfaces
 
         public Task<Result<object>> ChangeParcelStatusAsync(ParcelStatusHistoryModel statusModel);
 
-        public Task<Result<IEnumerable<ParcelModel>>> GetParcelsInOfficeAsync(PostOfficeModel officeModel);
+        public Task<Result<IEnumerable<ArrivedParcelModel>>> GetParcelsInOfficeAsync(string zip);
 
         public Task<Result<IEnumerable<ParcelModel>>> GetClientArrivedParcelsAsync(ClientModel clientModel);
     }

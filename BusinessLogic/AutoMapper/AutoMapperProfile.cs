@@ -28,6 +28,8 @@ namespace BusinessLogic.AutoMapper
             CreateClientMap();
 
             CreateOwnedMap();
+
+            CreateArrivedParcelMap();
         }
 
         private void CreatePostOfficeMap()
@@ -134,6 +136,13 @@ namespace BusinessLogic.AutoMapper
 
             CreateMap<ParcelItem.Gabarites, ParcelItemModel.GabaritesModel>()
                 .ReverseMap();
+        }
+
+        private void CreateArrivedParcelMap()
+        {
+            CreateMap<Parcel, ArrivedParcelModel>()
+                .ForMember(apm => apm.CityFrom, p => p.MapFrom(x => x.OfficeFrom.Location.City))
+                .ForMember(apm => apm.ZipFrom, p => p.MapFrom(x => x.OfficeFrom.Zip));
         }
     }
 }

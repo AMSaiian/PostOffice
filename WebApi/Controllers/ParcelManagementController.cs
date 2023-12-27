@@ -1,5 +1,6 @@
 ﻿using BusinessLogic;
 using BusinessLogic.Interfaces;
+using BusinessLogic.Models;
 using BusinessLogic.Validation;
 using FluentValidation;
 using FluentValidation.Results;
@@ -84,6 +85,14 @@ namespace WebApi.Controllers
 
                 return BadRequest(result);
             }
+        }
+
+        [Authorize(Roles = "Operator")]
+        [HttpGet("arrivedParcels/{zip}")]
+        public async Task<ActionResult<Result<IEnumerable<ArrivedParcelModel>>>> GetArrivedParcels(string zip)
+        {
+            Result<IEnumerable<ArrivedParcelModel>> result = await _service.GetParcelsInOfficeAsync(zip);
+            return Ok(result);
         }
     }
 }

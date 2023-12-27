@@ -55,9 +55,7 @@ namespace BusinessLogic.Services
 
             await ProcessParcelStatusHistoryAsync(parcelEntity);
 
-            await _context.Set<Parcel>().AddAsync(parcelEntity);
-
-            await _context.SaveChangesAsync();
+            await SimulateParcelTravelling(parcelEntity);
 
             return result;
         }
@@ -95,14 +93,13 @@ namespace BusinessLogic.Services
             return result;
         }
 
-        public async Task<Result<IEnumerable<ParcelModel>>> GetParcelsInOfficeAsync(PostOfficeModel officeModel)
+        public async Task<Result<IEnumerable<ArrivedParcelModel>>> GetParcelsInOfficeAsync(string zip)
         {
-            Result<IEnumerable<ParcelModel>> result = new();
+            Result<IEnumerable<ArrivedParcelModel>> result = new();
 
-            PostOffice office = _mapper.Map<PostOffice>(officeModel);
 
             PostOffice? officeInContext = await _context.Set<PostOffice>().FirstOrDefaultAsync(
-                               o => o.Zip == office.Zip);
+                               o => o.Zip == zip);
 
             if (officeInContext is null)
             {
@@ -111,13 +108,13 @@ namespace BusinessLogic.Services
                 return result;
             }
 
-            IEnumerable<Parcel> parcels = _context.Set<Parcel>()
+            IEnumerable<Parcel> parcels = _context.Set<Parcel>().Include(p => p.OfficeFrom)
                 .Where(p => p.OfficeToId == officeInContext.Id
                 && p.Status == ParcelStatus.RecievedByRecipient);
 
-            IEnumerable<ParcelModel> parcelModels = _mapper.Map<IEnumerable<ParcelModel>>(parcels);
+            IEnumerable<ArrivedParcelModel> arriveParcelModels = _mapper.Map<IEnumerable<ArrivedParcelModel>>(parcels);
             
-            result.Value = parcelModels;
+            result.Value = arriveParcelModels;
             return result;
         }
 
@@ -235,6 +232,36 @@ namespace BusinessLogic.Services
             };
 
             await _context.Set<ParcelStatusHistory>().AddAsync(parcelStatusHistory);
+        }
+
+        private async Task SimulateParcelTravelling(Parcel parcel)
+        {
+            ParcelStatusHistory parcelStatusHistory;
+
+            List<ParcelStatus> sortedStatuses = new()
+            {
+                ParcelStatus.InTransitToSortCenter,
+                ParcelStatus.RecievedBySortCenter,
+                ParcelStatus.InTransitToReciever,
+                ParcelStatus.RecievedByRecipient,
+            };
+
+            foreach (var status in sortedStatuses)
+            {
+                parcelStatusHistory = new()
+                {
+                    ParcelId = parcel.Id,
+                    Status = status,
+                    ChangesTime = DateTime.Now
+                };
+
+                await _context.Set<ParcelStatusHistory>().AddAsync(parcelStatusHistory);
+            }
+
+            parcel.Status = ParcelStatus.RecievedByRecipient;
+            await _context.Set<Parcel>().AddAsync(parcel);
+
+            await _context.SaveChangesAsync();
         }
     }
 }

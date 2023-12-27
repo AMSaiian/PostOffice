@@ -13,7 +13,7 @@ namespace BusinessLogic.Validation
 
             RuleFor(psh => psh.ChangesTime).NotNull().LessThanOrEqualTo(DateTime.Now);
 
-            //RuleFor(psh => psh.ParcelId).NotNull().NotEmpty();
+            RuleFor(psh => psh.ParcelId).NotNull().NotEmpty();
         }
     }
 }
