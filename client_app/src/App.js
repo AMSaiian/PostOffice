@@ -1,4 +1,4 @@
-import './App.css';
+import './style/app.css';
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { Login } from "./components/Login";
@@ -10,7 +10,7 @@ import PrivateRoute from './PrivateRoute';
 function App() {
   
   return (
-    <div>
+    <div className='app-wrapper'>
       <Router>
         <Routes>
           <Route path="/" element={<PrivateRoute allowedRole={"Unknown"}><Login/></PrivateRoute>} />

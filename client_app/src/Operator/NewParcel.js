@@ -23,6 +23,8 @@ export const NewParcel = () => {
   const [depth, setDepth] = useState();
   const [weight, setWeight] = useState();
 
+  const [output, setOutput] = useState([]);
+
   useEffect(() => {
     const getCategories = 'https://localhost:7167/api/ItemCategory';
     fetch(getCategories, {
@@ -117,7 +119,11 @@ export const NewParcel = () => {
     })
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
+        if (data.isSuccess) {
+          setOutput(["Parcel created!"])
+        } else {
+          setOutput(data.errors);
+        }
       })
       .catch((err) => {
         console.log(err);
@@ -205,6 +211,13 @@ export const NewParcel = () => {
         </div>
 
       </form>
+      <div className="new-parcel-output-wraper">
+        {
+          output.map((element, idx) => {
+            return <p key={"new-parcel-output-" + idx} className="new-parcel-output">{element}</p>
+          })
+        }
+      </div>
     </main>
   )
 }

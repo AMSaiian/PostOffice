@@ -1,0 +1,61 @@
+.login-main {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form-wraper, .login-error-wraper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 50%;
+  width: 25%;
+}
+
+.login-form-wraper form {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+}
+
+.login-form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 2% 2% 2% 2%;
+}
+
+.login-error-wraper {
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.login-error {
+  text-align: center;
+  font-size: 17px;
+}
+
+.login-form-wraper label {
+  font-size: large;
+}
+
+.login-form-control {
+  width: 100%;
+  font-size: 20px;
+}
+
+#login-button {
+    background-color: #007BFF;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+}

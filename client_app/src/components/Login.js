@@ -1,3 +1,4 @@
+import '../style/login.css';
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
@@ -55,14 +56,14 @@ export const Login = () => {
                   <label htmlFor="phone-input">Phone number</label>
                   <input type="tel" className="login-form-control" id="phone-input" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="Your phone number" />
                 </div>
-                <div className="form-group"> 
+                <div className="login-form-group"> 
                   <label htmlFor="password-input">Password</label>
                   <input type="password" className="login-form-control" id="password-input" value={password} onChange={(e) => setPassword(e.target.value)} placeholder="Your password" />
                 </div>
-                <button type="submit" onSubmit={(e) => handleSubmit(e)} className="buttons" id="login-buttons">Login</button>
+                <button type="submit" onSubmit={(e) => handleSubmit(e)} className="buttons" id="login-button">Login</button>
             </form>
           </div>
-          <div className="loginErrorWraper">
+          <div className="login-error-wraper">
             {
               errors.map((element, idx) => {
                 return <p key={"login-error-" + idx} className="login-error">{element}</p>
