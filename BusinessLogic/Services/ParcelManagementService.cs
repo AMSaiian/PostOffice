@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using System.Security.Cryptography;
+using AutoMapper;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using Data.Context;
@@ -118,9 +119,9 @@ namespace BusinessLogic.Services
             return result;
         }
 
-        public async Task<Result<IEnumerable<ParcelModel>>> GetClientArrivedParcelsAsync(ClientModel clientModel)
+        public async Task<Result<IEnumerable<ForGrantParcelModel>>> GetClientArrivedParcelsAsync(string zip, ClientModel clientModel)
         {
-            Result<IEnumerable<ParcelModel>> result = new();
+            Result<IEnumerable<ForGrantParcelModel>> result = new();
             Client client = _mapper.Map<Client>(clientModel);
 
             Client? clientInContext = await _context.Set<Client>().FirstOrDefaultAsync(
@@ -135,12 +136,21 @@ namespace BusinessLogic.Services
                 return result;
             }
 
-            IEnumerable<Parcel> parcels = _context.Set<Parcel>()
+            IEnumerable<Parcel> parcels = _context.Set<Parcel>().Include(p => p.OfficeTo)
                 .Where(
-                    p => p.ReceiverId == clientInContext.Id 
-                         && p.Status == ParcelStatus.ReadyForGranting);
+                    p => p.OfficeTo.Zip == zip
+                         && p.ReceiverId == clientInContext.Id 
+                         && p.Status == ParcelStatus.ReadyForGranting)
+                .Include(p => p.ParcelFilling).ThenInclude(pi => pi.ItemCategory);
 
-            IEnumerable<ParcelModel> parcelModels = _mapper.Map<IEnumerable<ParcelModel>>(parcels);
+            if (!parcels.Any())
+            {
+                result.IsSuccess = false;
+                result.Errors.Add("There are no arrived parcels for client");
+                return result;
+            }
+
+            IEnumerable<ForGrantParcelModel> parcelModels = _mapper.Map<IEnumerable<ForGrantParcelModel>>(parcels);
 
             result.Value = parcelModels;
             return result;
@@ -165,7 +175,8 @@ namespace BusinessLogic.Services
 
         private async Task ProcessSenderAsync(Client senderEntity, Parcel parcelEntity, Result<object> result)
         {
-            Client? senderInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == senderEntity.PhoneNumber);
+            Client? senderInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == senderEntity.PhoneNumber 
+                || (c.Name == senderEntity.Name && c.Surname == senderEntity.Surname));
 
             if (senderInContext is null)
             {
@@ -185,7 +196,8 @@ namespace BusinessLogic.Services
 
         private async Task ProcessReceiverAsync(Client receiverEntity, Parcel parcelEntity, Result<object> result)
         {
-            Client? receiverInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == receiverEntity.PhoneNumber);
+            Client? receiverInContext = await _context.Set<Client>().FirstOrDefaultAsync(c => c.PhoneNumber == receiverEntity.PhoneNumber
+                || (c.Name == receiverEntity.Name && c.Surname == receiverEntity.Surname));
 
             if (receiverInContext is null)
             {

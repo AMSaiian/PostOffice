@@ -37,6 +37,10 @@
   transition: border-color 0.3s ease;
 }
 
+.parcel-item-form-control-1 {
+  margin-bottom: 10px;
+}
+
 .sender-form-control:focus,
 .receiver-form-control:focus,
 .parcel-item-form-control:focus {

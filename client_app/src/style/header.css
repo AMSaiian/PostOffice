@@ -32,7 +32,7 @@ header {
 }
 
 .headers-tabs:hover {
-  background-color: #ddd;
+  background-color: #3f3f3f;
 }
 
 .header-signout {
@@ -43,6 +43,7 @@ header {
   font-size: 20px;
   cursor: pointer;
   outline: none;
+  border-radius: 4px;
   transition: background-color 0.3s ease;
 }
 

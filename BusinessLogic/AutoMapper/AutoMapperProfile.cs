@@ -30,6 +30,8 @@ namespace BusinessLogic.AutoMapper
             CreateOwnedMap();
 
             CreateArrivedParcelMap();
+
+            CreateForGrantParcelMap();
         }
 
         private void CreatePostOfficeMap()
@@ -143,6 +145,15 @@ namespace BusinessLogic.AutoMapper
             CreateMap<Parcel, ArrivedParcelModel>()
                 .ForMember(apm => apm.CityFrom, p => p.MapFrom(x => x.OfficeFrom.Location.City))
                 .ForMember(apm => apm.ZipFrom, p => p.MapFrom(x => x.OfficeFrom.Zip));
+        }
+
+        private void CreateForGrantParcelMap()
+        {
+            CreateMap<Parcel, ForGrantParcelModel>()
+                .ForMember(fgpm => fgpm.Id, p => p.MapFrom(x => x.Id))
+                .ForMember(fgpm => fgpm.Gabarites, p => p.MapFrom(x => x.ParcelFilling.First().Characteristics))
+                .ForMember(fgpm => fgpm.ItemCategory, p => p.MapFrom(x => x.ParcelFilling.First().ItemCategory.Name))
+                .ForMember(fgpm => fgpm.ItemDescription, p => p.MapFrom(x => x.ParcelFilling.First().Description));
         }
     }
 }

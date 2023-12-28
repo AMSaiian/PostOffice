@@ -1,0 +1,68 @@
+.give-parcel-main {
+  display: flex;
+  justify-content: flex-start;
+  flex-direction: column;
+}
+
+.give-parcel-form {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.give-parcel-form-control-wrappers {
+  display: flex;
+  flex-direction: column;
+}
+
+.grant-parcels-wrapper {
+  display: flex;
+  flex-direction: row;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.parcel-wrapper {
+  min-width: 400px;
+}
+
+.new-parcel-button-wrapper {
+  margin-top: 5px;
+}
+
+#submit-give-parcel, #submit-get-parcels {
+  background-color: #28a745;
+  color: #fff;
+  padding: 10px 15px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+#submit-give-parcel:hover {
+  background-color: #218838;
+}
+
+#submit-give-parcel:active {
+  background-color: #1e7e34;
+}
+
+#submit-get-parcels {
+  background-color: #007BFF;
+}
+
+#submit-get-parcels:hover {
+  background-color: #0062cb;
+}
+
+#submit-get-parcels:active {
+  background-color: #0353a8;
+}
+
+.give-parcel-output {
+  padding-left: 30px;
+  background-color: aliceblue;
+}

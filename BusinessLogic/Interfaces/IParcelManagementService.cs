@@ -13,6 +13,6 @@ namespace BusinessLogic.Interfaces
 
         public Task<Result<IEnumerable<ArrivedParcelModel>>> GetParcelsInOfficeAsync(string zip);
 
-        public Task<Result<IEnumerable<ParcelModel>>> GetClientArrivedParcelsAsync(ClientModel clientModel);
+        public Task<Result<IEnumerable<ForGrantParcelModel>>> GetClientArrivedParcelsAsync(string zip, ClientModel clientModel);
     }
 }

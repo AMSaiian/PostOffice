@@ -38,7 +38,7 @@ namespace WebApi.Controllers
         // POST api/<ParcelManagementController>
         [Authorize(Roles = "Operator")]
         [HttpPost]
-        public async Task<ActionResult<Result<object>>> Post([FromBody] CreateParcelWrap value)
+        public async Task<ActionResult<Result<object>>> CreateNewParcel([FromBody] CreateParcelWrap value)
         {
             Result<object> result = new();
             
@@ -93,6 +93,36 @@ namespace WebApi.Controllers
         {
             Result<IEnumerable<ArrivedParcelModel>> result = await _service.GetParcelsInOfficeAsync(zip);
             return Ok(result);
+        }
+
+        [Authorize(Roles = "Operator")]
+        [HttpPut("changeStatus")]
+        public async Task<ActionResult<Result<object>>> ChangeParcelStatus([FromBody] ParcelStatusHistoryModel value)
+        {
+            Result<object> result = await _service.ChangeParcelStatusAsync(value);
+            return Ok(result);
+        }
+
+        [Authorize(Roles = "Operator")]
+        [HttpPost("clientArrivedParcels/{zip}")]
+        public async Task<ActionResult<Result<IEnumerable<ForGrantParcelModel>>>> GetClientArrivedParcels(string zip, [FromBody] ClientModel client)
+        {
+            Result<IEnumerable<ForGrantParcelModel>> result = new();
+            ValidationResult clientValidation = await _clientValidator.ValidateAsync(client);
+
+            if (!clientValidation.IsValid)
+            {
+                result.IsSuccess = false;
+                result.Errors.AddRange(clientValidation.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(result);
+            }
+            
+            result = await _service.GetClientArrivedParcelsAsync(zip, client);
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
         }
     }
 }
