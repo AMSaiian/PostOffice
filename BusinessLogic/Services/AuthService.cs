@@ -2,6 +2,7 @@
 using BusinessLogic.Models;
 using Data.Context;
 using Data.Entities;
+using Data.Enums;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -55,6 +56,37 @@ namespace BusinessLogic.Services
             };
 
             result.Value = token;
+            return result;
+        }
+
+        public async Task<Result<object>> RegisterAsync(StaffRegisterModel newUserStaff)
+        {
+            Result<object> result = new();
+            Staff? userStaffInContext = await _context.Set<Staff>()
+                .FirstOrDefaultAsync(s => s.PhoneNumber == newUserStaff.PhoneNumber);
+
+            if (userStaffInContext is not null)
+            {
+                result.IsSuccess = false;
+                result.Errors.Add($"User with phone number={newUserStaff.PhoneNumber} already exist.");
+                return result;
+            }
+
+            var passwordHasher = new PasswordHasher<Staff>();
+
+            Staff newUserStaffEntity = new()
+            {
+                Name = newUserStaff.Name,
+                Surname = newUserStaff.Surname,
+                Role = newUserStaff.Role ?? UserRole.Operator,
+                PhoneNumber = newUserStaff.PhoneNumber,
+                PasswordHash = passwordHasher.HashPassword(null, newUserStaff.Password),
+                PostOfficeId = (await _context.Set<PostOffice>().FirstOrDefaultAsync(po => po.Zip == newUserStaff.PostOfficeZip)).Id
+            };
+
+            await _context.Set<Staff>().AddAsync(newUserStaffEntity);
+            await _context.SaveChangesAsync();
+
             return result;
         }
     }

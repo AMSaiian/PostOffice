@@ -8,10 +8,6 @@
         InTransitToReciever,
         RecievedByRecipient,
         ReadyForGranting,
-        Granted,
-        ReturnToSender,
-        Lost,
-        Found,
-        PackageDestroyed
+        Granted
     }
 }

@@ -11,8 +11,6 @@ namespace BusinessLogic.AutoMapper
         {
             CreatePostOfficeMap();
 
-            CreateStaffMap();
-
             CreateShipmentMarkMap();
 
             CreateParcelMap();
@@ -48,15 +46,6 @@ namespace BusinessLogic.AutoMapper
                 .ForMember(po => po.OfficeStaff, opt => opt.Ignore())
                 .ForMember(po => po.ReceiveParcels, opt => opt.Ignore())
                 .ForMember(po => po.SendParcels, opt => opt.Ignore());
-        }
-
-        private void CreateStaffMap()
-        {
-            CreateMap<Staff, StaffModel>()
-                .ReverseMap()
-                .ForMember(s => s.PasswordHash, opt => opt.Ignore())
-                .ForMember(s => s.Id, opt => opt.Condition(sm => sm.Id != null))
-                .ForMember(s => s.PostOffice, opt => opt.Ignore());
         }
 
         private void CreateShipmentMarkMap()

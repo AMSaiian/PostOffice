@@ -3,9 +3,9 @@ using FluentValidation;
 
 namespace BusinessLogic.Validation
 {
-    public class StaffValidator : AbstractValidator<StaffModel>
+    public class StaffRegisterValidator : AbstractValidator<StaffRegisterModel>
     {
-        public StaffValidator()
+        public StaffRegisterValidator()
         {
             //RuleFor(s => s.Id).NotEmpty();
 
@@ -16,6 +16,10 @@ namespace BusinessLogic.Validation
             RuleFor(s => s.Surname).NotNull().NotEmpty().Matches(@"^[A-Za-z.,'\s\-]+$");
 
             RuleFor(s => s.PhoneNumber).NotNull().NotEmpty().Matches(@"^\+380\d{9}$");
+
+            RuleFor(x => x.Password).NotNull().NotEmpty().MinimumLength(8);
+
+            RuleFor(x => x.ConfirmPassword).Equal(x => x.Password);
 
             RuleFor(s => s.Role).NotNull().IsInEnum();
         }

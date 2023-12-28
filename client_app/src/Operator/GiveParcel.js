@@ -183,7 +183,7 @@ export const GiveParcel = () => {
                             </div></>
                     : null }
                 </div>
-            </form >
+            </form>
             <div className="get-parcel-output-wraper">
                 {
                     output.map((element, idx) => {

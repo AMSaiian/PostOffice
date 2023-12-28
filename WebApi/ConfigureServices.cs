@@ -29,7 +29,7 @@ namespace WebApi
             self.AddScoped<ParcelValidator>();
             self.AddScoped<PostOfficeValidator>();
             self.AddScoped<ShipmentMarkValidator>();
-            self.AddScoped<StaffValidator>();
+            self.AddScoped<StaffRegisterValidator>();
             self.AddScoped<AuthModelValidator>();
             
             return self;

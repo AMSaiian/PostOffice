@@ -10,7 +10,7 @@ export const Login = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        const login = 'https://localhost:7167/api/Auth';
+        const login = 'https://localhost:7167/api/Auth/signin';
         fetch(login, {
             method: "POST",
             headers: {

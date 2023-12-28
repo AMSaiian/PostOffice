@@ -152,9 +152,9 @@ namespace BusinessLogic.Models
         }
     }
 
-    public class StaffModelEqualityComparer : IModelEqualityComparer<StaffModel>
+    public class StaffModelEqualityComparer : IModelEqualityComparer<StaffRegisterModel>
     {
-        public bool Equals(StaffModel? x, StaffModel? y)
+        public bool Equals(StaffRegisterModel? x, StaffRegisterModel? y)
         {
             if (x == null && y == null)
                 return true;
@@ -165,7 +165,7 @@ namespace BusinessLogic.Models
                    x.PhoneNumber == y.PhoneNumber;
         }
 
-        public int GetHashCode(StaffModel obj)
+        public int GetHashCode(StaffRegisterModel obj)
         {
             return obj.GetHashCode();
         }

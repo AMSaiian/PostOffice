@@ -14,24 +14,46 @@ namespace WebApi.Controllers
     {
         private readonly IAuthService _service;
 
-        private readonly AuthModelValidator _validator;
+        private readonly AuthModelValidator _authModelValidator;
 
-        public AuthController(IAuthService service, AuthModelValidator validator)
+        private readonly StaffRegisterValidator _registerModelValidator;
+
+        public AuthController(IAuthService service, AuthModelValidator authModelValidator, StaffRegisterValidator registerModelValidator)
         {
             _service = service;
-            _validator = validator;
+            _authModelValidator = authModelValidator;
+            _registerModelValidator = registerModelValidator;
         }
 
         // POST api/<AuthController>
-        [HttpPost]
-        public async Task<ActionResult<Result<TokenResponce>>> Post([FromBody] AuthModel value)
+        [HttpPost("signin")]
+        public async Task<ActionResult<Result<TokenResponce>>> AuthUser([FromBody] AuthModel value)
         {
             Result<TokenResponce> result = new();
-            ValidationResult validationResult = await _validator.ValidateAsync(value);
+            ValidationResult validationResult = await _authModelValidator.ValidateAsync(value);
 
             if (validationResult.IsValid)
             {
                 result = await _service.LoginAsync(value);
+                return Ok(result);
+            }
+            else
+            {
+                result.IsSuccess = false;
+                result.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(result);
+            }
+        }
+
+        [HttpPost("register")]
+        public async Task<ActionResult<Result<object>>> RegisterUser([FromBody] StaffRegisterModel value)
+        {
+            Result<object> result = new();
+            ValidationResult validationResult = await _registerModelValidator.ValidateAsync(value);
+
+            if (validationResult.IsValid)
+            {
+                result = await _service.RegisterAsync(value);
                 return Ok(result);
             }
             else
