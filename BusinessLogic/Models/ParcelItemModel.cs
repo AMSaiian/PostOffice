@@ -12,8 +12,6 @@ namespace BusinessLogic.Models
 
         public Guid? ItemCategoryId { get; set; }
 
-        //public Guid? ParcelId { get; set; }
-
         public class GabaritesModel
         {
             public int? Width { get; set; }

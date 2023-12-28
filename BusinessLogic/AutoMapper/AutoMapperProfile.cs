@@ -11,15 +11,11 @@ namespace BusinessLogic.AutoMapper
         {
             CreatePostOfficeMap();
 
-            CreateShipmentMarkMap();
-
             CreateParcelMap();
 
             CreateParcelItemMap();
 
             CreateItemCategoryMap();
-
-            CreateCategoryMarkMap();
 
             CreateParcelStatusHistoryMap();
 
@@ -46,16 +42,6 @@ namespace BusinessLogic.AutoMapper
                 .ForMember(po => po.OfficeStaff, opt => opt.Ignore())
                 .ForMember(po => po.ReceiveParcels, opt => opt.Ignore())
                 .ForMember(po => po.SendParcels, opt => opt.Ignore());
-        }
-
-        private void CreateShipmentMarkMap()
-        {
-            CreateMap<ShipmentMark, ShipmentMarkModel>()
-                //.ForMember(smm => smm.CategoryMarksId,
-                //    sm => sm.MapFrom(x => x.CategoryMarks.Select(cm => cm.CategoryId)))
-                .ReverseMap()
-                .ForMember(sm => sm.Id, opt => opt.Condition(smm => smm.Id != null))
-                .ForMember(sm => sm.CategoryMarks, opt => opt.Ignore());
         }
 
         private void CreateParcelMap()
@@ -91,12 +77,6 @@ namespace BusinessLogic.AutoMapper
                 .ForMember(ic => ic.Id, opt => opt.Condition(icm => icm.Id != null))
                 .ForMember(ic => ic.CategoryMarks, opt => opt.Ignore())
                 .ForMember(ic => ic.ParcelItems, opt => opt.Ignore());
-        }
-
-        private void CreateCategoryMarkMap()
-        {
-            CreateMap<CategoryMark, CategoryMarkModel>()
-                .ReverseMap();
         }
 
         private void CreateParcelStatusHistoryMap()

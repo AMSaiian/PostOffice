@@ -124,21 +124,6 @@ export const NewParcel = () => {
         if (data.isSuccess) {
           window.alert("Parcel created!");
           window.location.reload(false);
-          // setSenderName("");
-          // setSenderSurname("");
-          // setSenderPhone("+380");
-
-          // setReceiverName("");
-          // setReceiverSurname("");
-          // setReceiverPhone("+380");
-
-          // setDescription("");
-
-          // setWidth(0);
-          // setHeight(0);
-          // setDepth(0);
-          // setWeight(0);
-          
         } else {
           setOutput(data.errors);
         }

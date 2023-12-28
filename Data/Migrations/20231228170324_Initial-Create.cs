@@ -18,7 +18,6 @@ namespace Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(450)", nullable: true),
                     PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false)
                 },
                 constraints: table =>
@@ -36,18 +35,6 @@ namespace Data.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_ItemCategory", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Position",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Position", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -125,27 +112,19 @@ namespace Data.Migrations
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     Surname = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Role = table.Column<int>(type: "int", nullable: false),
                     PhoneNumber = table.Column<string>(type: "nvarchar(13)", maxLength: 13, nullable: false),
-                    PositionId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    PasswordHash = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     PostOfficeId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Staff", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_Staff_Position_PositionId",
-                        column: x => x.PositionId,
-                        principalTable: "Position",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade,
-                        onUpdate: ReferentialAction.Cascade);
-                    table.ForeignKey(
                         name: "FK_Staff_PostOffice_PostOfficeId",
                         column: x => x.PostOfficeId,
                         principalTable: "PostOffice",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade,
-                        onUpdate: ReferentialAction.Cascade);
+                        principalColumn: "Id");
                 });
 
             migrationBuilder.CreateTable(
@@ -233,13 +212,6 @@ namespace Data.Migrations
                 column: "MarkId");
 
             migrationBuilder.CreateIndex(
-                name: "Client_email",
-                table: "Client",
-                column: "Email",
-                unique: true,
-                filter: "[Email] IS NOT NULL");
-
-            migrationBuilder.CreateIndex(
                 name: "Client_fullname",
                 table: "Client",
                 columns: new[] { "Name", "Surname" },
@@ -293,12 +265,6 @@ namespace Data.Migrations
                 column: "ParcelId");
 
             migrationBuilder.CreateIndex(
-                name: "Position_name",
-                table: "Position",
-                column: "Name",
-                unique: true);
-
-            migrationBuilder.CreateIndex(
                 name: "Office_zip",
                 table: "PostOffice",
                 column: "Zip",
@@ -309,11 +275,6 @@ namespace Data.Migrations
                 table: "ShipmentMark",
                 column: "ShipmentConstraint",
                 unique: true);
-
-            migrationBuilder.CreateIndex(
-                name: "IX_Staff_PositionId",
-                table: "Staff",
-                column: "PositionId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Staff_PostOfficeId",
@@ -356,9 +317,6 @@ namespace Data.Migrations
 
             migrationBuilder.DropTable(
                 name: "Parcel");
-
-            migrationBuilder.DropTable(
-                name: "Position");
 
             migrationBuilder.DropTable(
                 name: "Client");

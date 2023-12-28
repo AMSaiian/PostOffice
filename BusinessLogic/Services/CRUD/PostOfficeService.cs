@@ -15,13 +15,10 @@ namespace BusinessLogic.Services.CRUD
 
         private readonly IMapper _mapper;
 
-        private readonly IEntityEqualityComparer<PostOffice> _equalityComparer;
-
-        public PostOfficeService(PostOfficeContext context, IMapper mapper, IEntityEqualityComparer<PostOffice> equalityComparer)
+        public PostOfficeService(PostOfficeContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _equalityComparer = equalityComparer;
         }
 
         public async Task<Result<PostOfficeModel>> GetByIdAsync(Guid id)
@@ -62,8 +59,9 @@ namespace BusinessLogic.Services.CRUD
         {
             Result<object> result = new();
             PostOffice entity = _mapper.Map<PostOffice>(model);
+            PostOffice? entityInContext = await _context.Set<PostOffice>().FirstOrDefaultAsync(po => po.Zip == entity.Zip);
 
-            if ((await _context.Set<PostOffice>().ToListAsync()).Contains(entity, _equalityComparer))
+            if (entityInContext is not null)
             {
                 result.IsSuccess = false;
                 result.Errors.Add($"Post office already exists in context.");
@@ -71,45 +69,6 @@ namespace BusinessLogic.Services.CRUD
             }
 
             await _context.Set<PostOffice>().AddAsync(entity);
-            await _context.SaveChangesAsync();
-            return result;
-        }
-
-        public async Task<Result<object>> UpdateAsync(PostOfficeModel model)
-        {
-            Result<object> result = new();
-            PostOffice entity = _mapper.Map<PostOffice>(model);
-
-            PostOffice? entityInContext = await _context.Set<PostOffice>().FindAsync(entity.Id);
-
-            if (entityInContext is null)
-            {
-                result.IsSuccess = false;
-                result.Errors.Add($"Post office doesn't exist in context.");
-                return result;
-            }
-
-            entityInContext.Zip = entity.Zip;
-            entityInContext.Location = entity.Location;
-
-            _context.Set<PostOffice>().Update(entityInContext);
-            await _context.SaveChangesAsync();
-            return result;
-        }
-
-        public async Task<Result<object>> DeleteAsync(Guid id)
-        {
-            Result<object> result = new();
-            PostOffice entityToDelete = await _context.Set<PostOffice>().FindAsync(id);
-
-            if (entityToDelete is null)
-            {
-                result.IsSuccess = false;
-                result.Errors.Add($"Post office doesn't exist in context.");
-                return result;
-            }
-            
-            _context.Set<PostOffice>().Remove(entityToDelete);
             await _context.SaveChangesAsync();
             return result;
         }

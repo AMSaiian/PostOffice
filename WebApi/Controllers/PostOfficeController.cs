@@ -29,7 +29,7 @@ namespace WebApi.Controllers
         // GET: api/<PostOfficeController>
         [Authorize]
         [HttpGet]
-        public async Task<ActionResult<Result<IEnumerable<PostOfficeModel>>>> Get()
+        public async Task<ActionResult<Result<IEnumerable<PostOfficeModel>>>> GetPostOffices()
         {
             Result<IEnumerable<PostOfficeModel>> result = await _service.GetAsync();
             return Ok(result);
@@ -38,47 +38,9 @@ namespace WebApi.Controllers
         // GET api/<PostOfficeController>/5
         [Authorize]
         [HttpGet("{id}")]
-        public async Task<ActionResult<Result<PostOfficeModel>>> Get(Guid id)
+        public async Task<ActionResult<Result<PostOfficeModel>>> GetById(Guid id)
         {
             Result<PostOfficeModel> result = await _service.GetByIdAsync(id);
-            return Ok(result);
-        }
-
-        // POST api/<PostOfficeController>
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<ActionResult<Result<object>>> Post([FromBody] PostOfficeModel value)
-        {
-            Result<object> result = new();
-            ValidationResult validationResult = await _validator.ValidateAsync(value);
-            if (validationResult.IsValid)
-            {
-                result = await _service.AddAsync(value);
-                return Ok(result);
-            }
-            else
-            {
-                result.IsSuccess = false;
-                result.Errors.AddRange(validationResult.Errors.Select(e => e.ErrorMessage));
-                return BadRequest(result);
-            }
-        }
-
-        // PUT api/<PostOfficeController>/5
-        [Authorize(Roles = "Admin")]
-        [HttpPut("{id}")]
-        public async Task<ActionResult<Result<object>>> Put(Guid id, [FromBody] PostOfficeModel value)
-        {
-            Result<object> result = await _service.UpdateAsync(value);
-            return Ok(result);
-        }
-
-        // DELETE api/<PostOfficeController>/5
-        [Authorize(Roles = "Admin")]
-        [HttpDelete("{id}")]
-        public async Task<ActionResult<Result<object>>> Delete(Guid id)
-        {
-            Result<object> result = await _service.DeleteAsync(id);
             return Ok(result);
         }
     }

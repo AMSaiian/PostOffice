@@ -7,8 +7,6 @@ namespace BusinessLogic.Validation
     {
         public ParcelStatusHistoryValidator()
         {
-            //RuleFor(psh => psh.Id).NotEmpty();
-
             RuleFor(psh => psh.Status).NotNull().IsInEnum();
 
             RuleFor(psh => psh.ChangesTime).NotNull().LessThanOrEqualTo(DateTime.Now);

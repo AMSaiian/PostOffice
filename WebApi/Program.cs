@@ -24,7 +24,6 @@ builder.Services.AddDbContext<PostOfficeContext>(options =>
         builder.Configuration.GetConnectionString("LocalInstance")));
 
 builder.Services.AddValidators();
-builder.Services.AddComparers();
 builder.Services.AddServices();
 builder.Services.AddScoped<ITokenProvider, TokenProvider>();
 builder.Services.AddAutoMapper(typeof(AutoMapperProfile));

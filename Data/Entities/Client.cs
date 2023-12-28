@@ -19,9 +19,6 @@ namespace Data.Entities
         [Required(AllowEmptyStrings = false)]
         public string Surname { get; set; }
 
-        //[DataType(DataType.EmailAddress)]
-        //public string? Email { get; set; }
-
         [Required(AllowEmptyStrings = false)]
         [StringLength(13)]
         [DataType(DataType.PhoneNumber)]
@@ -41,10 +38,6 @@ namespace Data.Entities
             builder.HasIndex(i => new { i.Name, i.Surname })
                 .HasDatabaseName("Client_fullname")
                 .IsUnique();
-
-            //builder.HasIndex(i => i.Email)
-            //    .HasDatabaseName("Client_email")
-            //    .IsUnique();
 
             builder.HasIndex(i => i.PhoneNumber)
                 .HasDatabaseName("Client_phone_number")

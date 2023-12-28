@@ -21,32 +21,15 @@ namespace WebApi
 
         public static IServiceCollection AddValidators(this IServiceCollection self)
         {
-            self.AddScoped<CategoryMarkValidator>();
             self.AddScoped<ClientValidator>();
             self.AddScoped<ItemCategoryValidator>();
             self.AddScoped<ParcelItemValidator>();
             self.AddScoped<ParcelStatusHistoryValidator>();
             self.AddScoped<ParcelValidator>();
             self.AddScoped<PostOfficeValidator>();
-            self.AddScoped<ShipmentMarkValidator>();
             self.AddScoped<StaffRegisterValidator>();
             self.AddScoped<AuthModelValidator>();
             
-            return self;
-        }
-
-        public static IServiceCollection AddComparers(this IServiceCollection self)
-        {
-            self.AddScoped<IEntityEqualityComparer<PostOffice>, PostOfficeEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<Parcel>, ParcelEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<ParcelStatusHistory>, ParcelStatusHistoryEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<ParcelItem>, ParcelItemEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<ItemCategory>, ItemCategoryEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<Staff>, StaffEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<ShipmentMark>, ShipmentMarkEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<Client>, ClientEqualityComparer>();
-            self.AddScoped<IEntityEqualityComparer<CategoryMark>, CategoryMarkEqualityComparer>();
-
             return self;
         }
     }

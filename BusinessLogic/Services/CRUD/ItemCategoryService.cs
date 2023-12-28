@@ -14,13 +14,10 @@ namespace BusinessLogic.Services.CRUD
 
         private readonly IMapper _mapper;
 
-        private readonly IEntityEqualityComparer<ItemCategory> _equalityComparer;
-
-        public ItemCategoryService(PostOfficeContext context, IMapper mapper, IEntityEqualityComparer<ItemCategory> equalityComparer)
+        public ItemCategoryService(PostOfficeContext context, IMapper mapper)
         {
             _context = context;
             _mapper = mapper;
-            _equalityComparer = equalityComparer;
         }
 
 

@@ -7,15 +7,9 @@ namespace BusinessLogic.Validation
     {
         public ParcelItemValidator()
         {
-            //RuleFor(pi => pi.Id).NotEmpty();
-
             RuleFor(pi => pi.Description).NotNull().NotEmpty().Matches(@"^[A-Za-z.,'""\s\-]+$");
 
             RuleFor(pi => pi.Characteristics).NotNull().SetValidator(new GabaritesModelValidation());
-
-            //RuleFor(pi => pi.ItemCategoryId).NotNull().NotEmpty();
-
-            //RuleFor(pi => pi.ParcelId).NotNull().NotEmpty();
         }
     }
 }

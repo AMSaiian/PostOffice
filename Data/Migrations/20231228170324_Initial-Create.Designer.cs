@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Data.Migrations
 {
     [DbContext(typeof(PostOfficeContext))]
-    [Migration("20231221120409_EmailDeletion")]
-    partial class EmailDeletion
+    [Migration("20231228170324_Initial-Create")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -167,24 +167,6 @@ namespace Data.Migrations
                     b.ToTable("ParcelStatusHistory");
                 });
 
-            modelBuilder.Entity("Data.Entities.Position", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("Name")
-                        .IsUnique()
-                        .HasDatabaseName("Position_name");
-
-                    b.ToTable("Position");
-                });
-
             modelBuilder.Entity("Data.Entities.PostOffice", b =>
                 {
                     b.Property<Guid>("Id")
@@ -233,16 +215,20 @@ namespace Data.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<string>("PasswordHash")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("PhoneNumber")
                         .IsRequired()
                         .HasMaxLength(13)
                         .HasColumnType("nvarchar(13)");
 
-                    b.Property<Guid>("PositionId")
-                        .HasColumnType("uniqueidentifier");
-
                     b.Property<Guid?>("PostOfficeId")
                         .HasColumnType("uniqueidentifier");
+
+                    b.Property<int>("Role")
+                        .HasColumnType("int");
 
                     b.Property<string>("Surname")
                         .IsRequired()
@@ -253,8 +239,6 @@ namespace Data.Migrations
                     b.HasIndex("PhoneNumber")
                         .IsUnique()
                         .HasDatabaseName("Staff_phone_number");
-
-                    b.HasIndex("PositionId");
 
                     b.HasIndex("PostOfficeId");
 
@@ -410,17 +394,9 @@ namespace Data.Migrations
 
             modelBuilder.Entity("Data.Entities.Staff", b =>
                 {
-                    b.HasOne("Data.Entities.Position", "Position")
-                        .WithMany("Staff")
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.HasOne("Data.Entities.PostOffice", "PostOffice")
                         .WithMany("OfficeStaff")
                         .HasForeignKey("PostOfficeId");
-
-                    b.Navigation("Position");
 
                     b.Navigation("PostOffice");
                 });
@@ -444,11 +420,6 @@ namespace Data.Migrations
                     b.Navigation("ParcelFilling");
 
                     b.Navigation("ParcelHistory");
-                });
-
-            modelBuilder.Entity("Data.Entities.Position", b =>
-                {
-                    b.Navigation("Staff");
                 });
 
             modelBuilder.Entity("Data.Entities.PostOffice", b =>

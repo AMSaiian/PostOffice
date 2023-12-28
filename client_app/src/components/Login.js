@@ -24,10 +24,9 @@ export const Login = () => {
           })
             .then((response) => response.json())
             .then((data) => { 
-              setPhone("");
               setPassword("");
-      
               if (data.isSuccess) {
+                setPhone("");
                 const token = data.value;
                 localStorage.setItem("token", JSON.stringify(token));
 
