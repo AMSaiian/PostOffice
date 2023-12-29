@@ -1,6 +1,6 @@
 import { useState } from "react";
 import React from "react";
-import "../style/newOperator.css"
+import "../style/newOperatorMain.css"
 
 export const NewOperator = () => {
   const [operatorName, setOperatorName] = useState("");
@@ -49,7 +49,7 @@ export const NewOperator = () => {
   return (
     <main className="new-operator-main">
       <form className="new-operator-form" onSubmit={handleSubmit}>
-          <h1>New operator</h1>
+          <h1>New operator credits</h1>
           <div className="new-operator-form-control-wrappers" id="operator-name-wrapper">
             <label htmlFor="operator-name">Name</label>
             <input type="fname" className="operator-form-control" id="operator-name" value={operatorName} onChange={(e) => setOperatorName(e.target.value)} placeholder="Name" />

@@ -43,5 +43,27 @@ namespace WebApi.Controllers
             Result<PostOfficeModel> result = await _service.GetByIdAsync(id);
             return Ok(result);
         }
+
+        [Authorize]
+        [HttpPost]
+        public async Task<ActionResult<Result<object>>> CreatePostOffice([FromBody] PostOfficeModel value)
+        {
+            Result<object> result = new();
+            ValidationResult newOfficeValidation = await _validator.ValidateAsync(value);
+
+            if (!newOfficeValidation.IsValid)
+            {
+                result.IsSuccess = false;
+                result.Errors.AddRange(newOfficeValidation.Errors.Select(e => e.ErrorMessage));
+                return BadRequest(result);
+            }
+
+            result = await _service.AddAsync(value);
+
+            if (result.IsSuccess)
+                return Ok(result);
+
+            return BadRequest(result);
+        }
     }
 }

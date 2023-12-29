@@ -63,12 +63,14 @@ namespace BusinessLogic.Services
         {
             Result<object> result = new();
             Staff? userStaffInContext = await _context.Set<Staff>()
-                .FirstOrDefaultAsync(s => s.PhoneNumber == newUserStaff.PhoneNumber);
+                .FirstOrDefaultAsync(s => s.PhoneNumber == newUserStaff.PhoneNumber 
+                                          || (s.Name == newUserStaff.Name && s.Surname == newUserStaff.Surname));
 
             if (userStaffInContext is not null)
             {
                 result.IsSuccess = false;
-                result.Errors.Add($"User with phone number={newUserStaff.PhoneNumber} already exist.");
+                result.Errors.Add($"User with name {newUserStaff.Name + " " + newUserStaff.Surname} " +
+                                  $"or phone number={newUserStaff.PhoneNumber} already exist.");
                 return result;
             }
 

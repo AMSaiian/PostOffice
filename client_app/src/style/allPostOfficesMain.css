@@ -1,4 +1,4 @@
-.all-operators-main {
+.all-post-offices-main {
   display: flex;
   justify-content: flex-start;
   flex-direction: column;
@@ -32,7 +32,7 @@ tbody tr:hover {
 
 th:nth-child(1),
 td:nth-child(1) {
-  width: 30%;
+  width: 20%;
 }
 
 th:nth-child(2),
@@ -42,24 +42,11 @@ td:nth-child(2) {
 
 th:nth-child(3),
 td:nth-child(3) {
-  width: 25%;
+  width: 30%;
 }
 
 th:nth-child(4),
 td:nth-child(4) {
-  width: 15%;
+  width: 20%;
 }
 
-.delete-operator-buttons {
-  background-color: #a72828;
-  color: #fff;
-  padding: 8px 12px;
-  border: none;
-  border-radius: 4px;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-.delete-operator-buttons:hover {
-  background-color: #882121;
-}
