@@ -26,6 +26,8 @@ namespace BusinessLogic.AutoMapper
             CreateArrivedParcelMap();
 
             CreateForGrantParcelMap();
+
+            CreateStaffDisplayMap();
         }
 
         private void CreatePostOfficeMap()
@@ -123,6 +125,12 @@ namespace BusinessLogic.AutoMapper
                 .ForMember(fgpm => fgpm.Gabarites, p => p.MapFrom(x => x.ParcelFilling.First().Characteristics))
                 .ForMember(fgpm => fgpm.ItemCategory, p => p.MapFrom(x => x.ParcelFilling.First().ItemCategory.Name))
                 .ForMember(fgpm => fgpm.ItemDescription, p => p.MapFrom(x => x.ParcelFilling.First().Description));
+        }
+
+        private void CreateStaffDisplayMap()
+        {
+            CreateMap<Staff, StaffDisplayModel>()
+                .ForMember(sdm => sdm.Zip, p => p.MapFrom(x => x.PostOffice.Zip));
         }
     }
 }

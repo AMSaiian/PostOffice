@@ -15,6 +15,7 @@ namespace WebApi
             self.AddScoped<IParcelManagementService, ParcelManagementService>();
             self.AddScoped<IItemCategoryService, ItemCategoryService>();
             self.AddScoped<IAuthService, AuthService>();
+            self.AddScoped<IStaffService, StaffService>();
             
             return self;
         }
