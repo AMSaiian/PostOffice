@@ -7,7 +7,9 @@ namespace BusinessLogic.Validation
     {
         public ParcelValidator()
         {
-            RuleFor(p => p.Status).NotNull().IsInEnum();
+            RuleFor(p => p.Status).Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Parcel status must be defined")
+                .IsInEnum().WithMessage("Parcel status must be defined correctly");
         }
     }
 }

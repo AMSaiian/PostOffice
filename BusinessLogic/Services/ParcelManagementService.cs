@@ -72,7 +72,7 @@ namespace BusinessLogic.Services
             if (parcel is null)
             {
                 result.IsSuccess = false;
-                result.Errors.Add("Parcel doesn't exist in context");
+                result.Errors.Add("Parcel doesn't exist");
                 return result;
             }
 
@@ -105,7 +105,7 @@ namespace BusinessLogic.Services
             if (officeInContext is null)
             {
                 result.IsSuccess = false;
-                result.Errors.Add("Office doesn't exist in context");
+                result.Errors.Add("Office doesn't exist");
                 return result;
             }
 
@@ -132,7 +132,7 @@ namespace BusinessLogic.Services
             if (clientInContext is null)
             {
                 result.IsSuccess = false;
-                result.Errors.Add("Client doesn't exist in context");
+                result.Errors.Add("Client doesn't exist");
                 return result;
             }
 
@@ -190,7 +190,7 @@ namespace BusinessLogic.Services
             else
             {
                 result.IsSuccess = false;
-                result.Errors.Add("Sender phone number already owned");
+                result.Errors.Add("Sender phone number already owned by another client");
             }
         }
 
@@ -211,7 +211,7 @@ namespace BusinessLogic.Services
             else
             {
                 result.IsSuccess = false;
-                result.Errors.Add("Receiver phone number already owned");
+                result.Errors.Add("Receiver phone number already owned by another client");
             }
         }
 

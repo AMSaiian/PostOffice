@@ -7,7 +7,10 @@ namespace BusinessLogic.Validation
     {
         public PostOfficeValidator()
         {
-            RuleFor(po => po.Zip).NotNull().NotEmpty().Length(5).WithMessage("Zip length must be 5")
+            RuleFor(po => po.Zip).Cascade(CascadeMode.Stop)
+                .NotNull().WithMessage("Zip must be defined")
+                .NotEmpty().WithMessage("Zip must be defined")
+                .Length(5).WithMessage("Zip must contain 5 numbers")
                 .Matches("^[0-9]*$").WithMessage("Zip must contain only numbers");
 
             RuleFor(po => po.Location).SetValidator(new AddressModelValidator());

@@ -29,7 +29,7 @@ namespace BusinessLogic.Services.CRUD
             if (!entities.Any())
             {
                 result.IsSuccess = false;
-                result.Errors.Add($"There are no item categories in context.");
+                result.Errors.Add($"There are no defined categories");
                 return result;
             }
 

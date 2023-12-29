@@ -29,7 +29,7 @@ namespace BusinessLogic.Services.CRUD
             if (entity is null)
             {
                 result.IsSuccess = false;
-                result.Errors.Add($"Post office with id {id} doesn't exist in context.");
+                result.Errors.Add($"Post office with id {id} doesn't exist in context");
                 return result;
             }
 
@@ -46,7 +46,7 @@ namespace BusinessLogic.Services.CRUD
             if (!entities.Any())
             {
                 result.IsSuccess = false;
-                result.Errors.Add($"There are no post offices in context.");
+                result.Errors.Add($"There are no post offices");
                 return result;
             }
 
@@ -64,7 +64,7 @@ namespace BusinessLogic.Services.CRUD
             if (entityInContext is not null)
             {
                 result.IsSuccess = false;
-                result.Errors.Add($"Post office with zip {entity.Zip} already exists in context.");
+                result.Errors.Add($"Post office with zip {entity.Zip} already exists");
                 return result;
             }
 
