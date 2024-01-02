@@ -29,7 +29,7 @@ namespace BusinessLogic.Services
             if (userStaff is null)
             {
                 result.IsSuccess = false;
-                result.Errors.Add($"User with phone number={credits.PhoneNumber} doesn't exist");
+                result.Errors.Add($"User with phone number {credits.PhoneNumber} doesn't exist");
                 return result;
             }
 
@@ -70,7 +70,7 @@ namespace BusinessLogic.Services
             {
                 result.IsSuccess = false;
                 result.Errors.Add($"User with name {newUserStaff.Name + " " + newUserStaff.Surname} " +
-                                  $"or phone number={newUserStaff.PhoneNumber} already exists");
+                                  $"or phone number {newUserStaff.PhoneNumber} already exists");
                 return result;
             }
 

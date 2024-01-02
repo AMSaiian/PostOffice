@@ -3,7 +3,6 @@ using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using Data.Context;
 using Data.Entities;
-using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services.CRUD

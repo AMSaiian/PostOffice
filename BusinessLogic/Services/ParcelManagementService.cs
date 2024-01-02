@@ -1,11 +1,9 @@
-﻿using System.Security.Cryptography;
-using AutoMapper;
+﻿using AutoMapper;
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using Data.Context;
 using Data.Entities;
 using Data.Enums;
-using Data.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace BusinessLogic.Services

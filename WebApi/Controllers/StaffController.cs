@@ -2,7 +2,6 @@
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using Data.Enums;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers

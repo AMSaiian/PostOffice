@@ -13,11 +13,11 @@ namespace BusinessLogic.Validation
 
             RuleFor(g => g.Width).Cascade(CascadeMode.Stop)
                 .NotNull().WithMessage("Width must be defined")
-                .GreaterThan(0).WithMessage("Width must be greater than 0 mm");;
+                .GreaterThan(0).WithMessage("Width must be greater than 0 mm");
 
             RuleFor(g => g.Height).Cascade(CascadeMode.Stop)
                 .NotNull().WithMessage("Height must be defined")
-                .GreaterThan(0).WithMessage("Height must be greater than 0 mm");;
+                .GreaterThan(0).WithMessage("Height must be greater than 0 mm");
 
             RuleFor(g => g.Weight).Cascade(CascadeMode.Stop)
                 .NotNull().WithMessage("Weight must be defined")

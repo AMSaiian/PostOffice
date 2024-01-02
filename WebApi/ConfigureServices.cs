@@ -2,8 +2,6 @@
 using BusinessLogic.Services;
 using BusinessLogic.Services.CRUD;
 using BusinessLogic.Validation;
-using Data.Entities;
-using Data.Interfaces;
 
 namespace WebApi
 {

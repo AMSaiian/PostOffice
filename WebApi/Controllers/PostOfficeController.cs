@@ -2,13 +2,10 @@
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using BusinessLogic.Validation;
-using Data.Enums;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.OpenApi.Extensions;
 
-// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
 
 namespace WebApi.Controllers
 {
@@ -26,7 +23,6 @@ namespace WebApi.Controllers
             _validator = validator;
         }
 
-        // GET: api/<PostOfficeController>
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<Result<IEnumerable<PostOfficeModel>>>> GetPostOffices()
@@ -35,7 +31,6 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        // GET api/<PostOfficeController>/5
         [Authorize]
         [HttpGet("{id}")]
         public async Task<ActionResult<Result<PostOfficeModel>>> GetById(Guid id)

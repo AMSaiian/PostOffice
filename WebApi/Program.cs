@@ -13,10 +13,7 @@ using WebApi;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<PostOfficeContext>(options => 
@@ -49,13 +46,12 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+using var scope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
+await using var context = scope.ServiceProvider.GetRequiredService<PostOfficeContext>();
+await InitialiseContextAsync(new ContextInitialiser(context, new DataSeed()));
+
 if (app.Environment.IsDevelopment())
 {
-    using var scope = app.Services.GetService<IServiceScopeFactory>().CreateScope();
-    await using var context = scope.ServiceProvider.GetRequiredService<PostOfficeContext>();
-    await InitialiseContextAsync(new ContextInitialiser(context, new DataSeed()));
-
     app.UseSwagger();
     app.UseSwaggerUI();
 }

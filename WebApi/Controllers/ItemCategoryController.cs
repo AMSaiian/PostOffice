@@ -3,7 +3,6 @@ using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using BusinessLogic.Validation;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -22,7 +21,6 @@ namespace WebApi.Controllers
             _validator = validator;
         }
 
-        // GET: api/<ItemCategoryController>
         [Authorize]
         [HttpGet]
         public async Task<ActionResult<Result<IEnumerable<ItemCategoryModel>>>> Get()

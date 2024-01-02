@@ -2,10 +2,8 @@
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using BusinessLogic.Validation;
-using FluentValidation;
 using FluentValidation.Results;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using WebApi.RequestWraps;
 
@@ -35,7 +33,6 @@ namespace WebApi.Controllers
             _postOfficeValidator = postOfficeValidator;
         }
         
-        // POST api/<ParcelManagementController>
         [Authorize(Roles = "Operator")]
         [HttpPost]
         public async Task<ActionResult<Result<object>>> CreateNewParcel([FromBody] CreateParcelWrap value)
