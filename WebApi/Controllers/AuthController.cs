@@ -3,6 +3,7 @@ using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using BusinessLogic.Validation;
 using FluentValidation.Results;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -43,6 +44,7 @@ namespace WebApi.Controllers
             }
         }
 
+        [Authorize(Roles = "Manager,Admin")]
         [HttpPost("register")]
         public async Task<ActionResult<Result<object>>> RegisterUser([FromBody] StaffRegisterModel value)
         {

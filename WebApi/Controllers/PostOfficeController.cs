@@ -39,7 +39,7 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
-        [Authorize]
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<ActionResult<Result<object>>> CreatePostOffice([FromBody] PostOfficeModel value)
         {

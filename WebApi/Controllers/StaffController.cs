@@ -2,6 +2,7 @@
 using BusinessLogic.Interfaces;
 using BusinessLogic.Models;
 using Data.Enums;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace WebApi.Controllers
@@ -17,6 +18,7 @@ namespace WebApi.Controllers
             _service = service;
         }
 
+        [Authorize]
         [HttpGet]
         public async Task<ActionResult<Result<StaffDisplayModel>>> GetStaffByFilter([FromQuery] UserRole? role,
             [FromQuery] string? zip)
@@ -25,6 +27,7 @@ namespace WebApi.Controllers
             return Ok(result);
         }
 
+        [Authorize]
         [HttpDelete("{id}")]
         public async Task<ActionResult<Result<object>>> DeleteStaff(Guid id)
         {
